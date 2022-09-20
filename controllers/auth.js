@@ -66,6 +66,7 @@ exports.getSignup = (req, res) => {
 };
 
 exports.postSignup = (req, res, next) => {
+  console.log(req)
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
     validationErrors.push({ msg: "Please enter a valid email address." });
@@ -85,20 +86,23 @@ exports.postSignup = (req, res, next) => {
   });
 
   const user = new User({
-    userName: req.body.userName,
+    givenName: req.body.givenName,
+    surName: req.body.surName,
+    city: req.body.city,
+    loc_state: req.body.state,
     email: req.body.email,
     password: req.body.password,
   });
 
   User.findOne(
-    { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
+    { email: req.body.email },
     (err, existingUser) => {
       if (err) {
         return next(err);
       }
       if (existingUser) {
         req.flash("errors", {
-          msg: "Account with that email address or username already exists.",
+          msg: "Account with that email address already exists.",
         });
         return res.redirect("../signup");
       }
