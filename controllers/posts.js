@@ -1,6 +1,6 @@
 const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
-
+const User = require("../models/User");
 module.exports = {
   getProfile: async (req, res) => {
     try {
@@ -12,8 +12,9 @@ module.exports = {
   },
   getFeed: async (req, res) => {
     try {
-      const posts = await Post.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { posts: posts });
+      const posts = await Post.find().sort({ createdAt: "desc" });
+      const users = await User.find().sort({ createdAt: "desc" });
+      res.render("feed.ejs", { posts: posts, users: users, currUser: req.user });
     } catch (err) {
       console.log(err);
     }
@@ -29,14 +30,11 @@ module.exports = {
   createPost: async (req, res) => {
     try {
       // Upload image to cloudinary
-      const result = await cloudinary.uploader.upload(req.file.path);
-
+      // const result = await cloudinary.uploader.upload(req.file.path);
+      console.log(req.body, req.user)
       await Post.create({
         title: req.body.title,
-        image: result.secure_url,
-        cloudinaryId: result.public_id,
-        caption: req.body.caption,
-        likes: 0,
+        description: req.body.description,
         user: req.user.id,
       });
       console.log("Post has been added!");

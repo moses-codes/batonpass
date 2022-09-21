@@ -9,6 +9,8 @@ const UserSchema = new mongoose.Schema({
   summary: { type: String, default: 'Summary goes here.' },
   bio: { type: String, default: 'No bio given.' },
   email: { type: String, unique: true },
+  isOrg: { type: Boolean, default: false },
+  orgName: { type: String, required: false },
   password: String,
 });
 
