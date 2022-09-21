@@ -1,6 +1,7 @@
 const passport = require("passport");
 const validator = require("validator");
 const User = require("../models/User");
+// const Org = require('../models/Org')
 
 exports.getLogin = (req, res) => {
   if (req.user) {
@@ -65,8 +66,17 @@ exports.getSignup = (req, res) => {
   });
 };
 
+exports.getSignupOrg = (req, res) => {
+  if (req.org) {
+    return res.redirect("/profile");
+  }
+  res.render("signupOrg", {
+    title: "Create Organization Account",
+  });
+};
+
 exports.postSignup = (req, res, next) => {
-  console.log(req)
+  console.log(req.body)
   const validationErrors = [];
   if (!validator.isEmail(req.body.email))
     validationErrors.push({ msg: "Please enter a valid email address." });
@@ -85,12 +95,15 @@ exports.postSignup = (req, res, next) => {
     gmail_remove_dots: false,
   });
 
+  if (req.body.isOrg === "true") req.body.isOrg = true;
+
   const user = new User({
     givenName: req.body.givenName,
     surName: req.body.surName,
     city: req.body.city,
     loc_state: req.body.state,
     email: req.body.email,
+    isOrg: req.body.isOrg,
     password: req.body.password,
   });
 
@@ -120,3 +133,60 @@ exports.postSignup = (req, res, next) => {
     }
   );
 };
+
+// exports.postSignupOrg = (req, res, next) => {
+//   console.log(req.body)
+//   const validationErrors = [];
+//   if (!validator.isEmail(req.body.email))
+//     validationErrors.push({ msg: "Please enter a valid email address." });
+//   if (!validator.isLength(req.body.password, { min: 8 }))
+//     validationErrors.push({
+//       msg: "Password must be at least 8 characters long",
+//     });
+//   if (req.body.password !== req.body.confirmPassword)
+//     validationErrors.push({ msg: "Passwords do not match" });
+
+//   if (validationErrors.length) {
+//     req.flash("errors", validationErrors);
+//     return res.redirect("../signupOrg");
+//   }
+//   req.body.email = validator.normalizeEmail(req.body.email, {
+//     gmail_remove_dots: false,
+//   });
+
+//   const org = new Org({
+//     orgName: req.body.orgName,
+//     city: req.body.city,
+//     loc_state: req.body.state,
+//     contact_surName: req.body.contact_surName,
+//     contact_givenName: req.body.contact_givenName,
+//     contact_email: req.body.contact_email,
+//     password: req.body.password,
+//   });
+
+//   Org.findOne(
+//     { email: req.body.email },
+//     (err, existingOrg) => {
+//       if (err) {
+//         return next(err);
+//       }
+//       if (existingOrg) {
+//         req.flash("errors", {
+//           msg: "Account with that email address already exists.",
+//         });
+//         return res.redirect("../signupOrg");
+//       }
+//       org.save((err) => {
+//         if (err) {
+//           return next(err);
+//         }
+//         req.logIn(org, (err) => {
+//           if (err) {
+//             return next(err);
+//           }
+//           res.redirect("/profile");
+//         });
+//       });
+//     }
+//   );
+// };
