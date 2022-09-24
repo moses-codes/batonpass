@@ -11,6 +11,8 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   isOrg: { type: Boolean, default: false },
   orgName: { type: String, required: false },
+  contactPending: { type: Array, default: [] },
+  contactConfirm: { type: Array, default: [] },
   password: String,
 });
 

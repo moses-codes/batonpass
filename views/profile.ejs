@@ -3,7 +3,7 @@
     <div class="row mt-5">
       <div class="col-6">
         <div>
-          <p><strong>User Name</strong>: <%= user.userName %>
+          <p><strong>User Name</strong>: <%= `${user.givenName} ${user.surName}` %>
           </p>
           <p><strong>Email</strong>: <%= user.email %>
           </p>
@@ -64,6 +64,9 @@
           </div>
           <% } else { %>
             <h1>USER IS A MUSICIAN</h1>
+            <h3>
+              <%= user%>
+            </h3>
             <% } %>
       </div>
 

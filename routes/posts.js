@@ -9,7 +9,8 @@ router.get("/:id", ensureAuth, postsController.getPost);
 
 router.post("/createPost", upload.single("file"), postsController.createPost);
 
-// router.put("/likePost/:id", postsController.likePost);
+router.put("/requestConnect/:friend/:user", postsController.requestConnect);
+router.put("/confirmConnect/:friend/:user", postsController.confirmConnect);
 
 router.delete("/deletePost/:id", postsController.deletePost);
 
