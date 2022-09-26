@@ -52,7 +52,7 @@
                                                 <%= name %> wants to add you as a connection
                                               </h2>
                                               <form class="col-1"
-                                                action="/post/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
+                                                action="/connections/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
                                                 method="POST">
                                                 <button class="btn btn-primary" type="submit">Accept</button>
                                               </form>
@@ -80,11 +80,21 @@
                                             <p>
                                               <%= el.summary %>
                                             </p>
-                                            <form class="col-1" action="" method="POST">
+                                            <% if (currUser.contactPending.indexOf(el._id)){ %>
+                                            <form class="col-1"
+                                              action="/connections/requestConnect/<%= el._id %>/<%= currUser._id %>/?_method=PUT"
+                                              method="POST">
                                               <button class="btn btn-primary" type="submit">
-                                                Connect
+                                                <%= el.contactPending.indexOf(currUser._id) == -1 ? 'Connect' : 'Pending Request' %>
                                               </button>
                                             </form>
+                                            <%} else { %>
+                                            <form class="col-1"
+                                                action="/connections/confirmConnect/<%= el._id %>/<%= currUser._id %>/?_method=PUT"
+                                                method="POST">
+                                                <button class="btn btn-primary" type="submit">Accept</button>
+                                              </form>
+                                            <% }%>
                                         </li>
 
 
@@ -95,11 +105,8 @@
 
                                       <%}else{%>
                                         <h3>
-                                          <%= currUser.givenName %> is logged in. Their user object:
+                                          Hi, <%= currUser.givenName %>!
                                         </h3>
-                                        <span>
-                                          <%= currUser%>
-                                        </span>
                                         <span>is musician</span>
 
                                         <% let postsConnected=posts.filter( el=> {%>
@@ -109,75 +116,109 @@
                                                 <% return currUser.contactConfirm.indexOf(el.user)==-1%>
                                                   <% })%>
 
-                                                    <% if (postsConnected.length) {%>
-                                                      <ul class="row list-unstyled">
-                                                        <% let orgsConnected=orgs.filter(el=> { %>
-                                                          <%return currUser.contactConfirm.indexOf(el._id)> -1 %>
-                                                            <%})%>
+                                                    <!--Pending requests-->
+                                                    <% if (currUser.contactPending.length){%>
+                                                      <ul>
+                                                        <% for (let friend of currUser.contactPending) {%>
+                                                          <% let result=users.find(el=> el._id == friend) %>
+                                                            <% let id=result._id %>
+                                                              <% let name=`${result.givenName} ${result.surName}`%>
+                                                                <li>
+                                                                  <h2>
+                                                                    <%= name %> wants to add you as a connection
+                                                                  </h2>
+                                                                  <form class="col-1"
+                                                                    action="/connections/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
+                                                                    method="POST">
+                                                                    <button class="btn btn-primary"
+                                                                      type="submit">Accept</button>
+                                                                  </form>
+                                                                </li>
 
-                                                              <h5>Hello, <%= currUser.givenName%>!</h5>
-                                                              <h5>You are connected with the following group(s):
-                                                              </h5>
-                                                              <ul>
-                                                                <% orgsConnected.forEach( el=> {%>
-                                                                  <h3>
-                                                                    <%= el.orgName%>
-                                                                  </h3>
-                                                                  <h4>
-                                                                    <%= `${el.givenName} ${el.surName}`%>
-                                                                  </h4>
-                                                                  <h4>
-                                                                    <%= `${el.email}`%>
-                                                                  </h4>
-                                                                  <% let currentPost=postsConnected.find( post=> {%>
-                                                                    <% return `${post.user}`==`${el._id}` })%>
-                                                                      <h5>This is regarding the </h5>
-                                                                      <%= currentPost%>
-                                                                        <%= `${currentPost.title} for the
-                                                                          ${currentPost.description}` %>
-                                                                          <% }) %>
-                                                              </ul>
-
+                                                                <%}%>
                                                       </ul>
-                                                      <%} else {%>
-                                                        <h2>No postings remain!</h2>
-                                                        <% } %>
-                                                          <% if (postsVirginal.length) {%>
-                                                            <h2>Available postings:</h2>
-                                                            <!--unanswered postings-->
-                                                            <ul class="row list-unstyled">
-                                                              <% for(var i=0; i<postsVirginal.length; i++) {%>
-                                                                <% let orgInfo=orgs.find( el=> {%>
-                                                                  <% return `${el._id}`==`${postsVirginal[i].user}`})%>
-                                                                    <li>
-                                                                      <h2>
-                                                                        <%= postsVirginal[i].title %>
-                                                                      </h2>
+                                                      <%}%>
+
+                                                        <% if (postsConnected.length) {%>
+                                                          <ul class="row list-unstyled">
+                                                            <% let orgsConnected=orgs.filter(el=> { %>
+                                                              <%return currUser.contactConfirm.indexOf(el._id)> -1 %>
+                                                                <%})%>
+
+                                                                  <h5>Hello, <%= currUser.givenName%>!</h5>
+                                                                  <h5>You are connected with the following group(s):
+                                                                  </h5>
+                                                                  <ul>
+                                                                    <% orgsConnected.forEach( el=> {%>
                                                                       <h3>
-                                                                        for the
-                                                                        <%= postsVirginal[i].description %>.
+                                                                        <%= el.orgName%>
                                                                       </h3>
                                                                       <h4>
-                                                                        this is for
-                                                                        <%= orgInfo %>
+                                                                        <%= `${el.givenName} ${el.surName}`%>
                                                                       </h4>
-                                                                      <form class="col-1"
-                                                                        action="/post/requestConnect/<%= postsVirginal[i].user %>/<%= currUser._id %>/?_method=PUT"
-                                                                        method="POST">
-                                                                        <button class="btn btn-primary" type="submit">
-                                                                          Connect
-                                                                        </button>
-                                                                      </form>
-                                                                    </li>
+                                                                      <h4>
+                                                                        <%= `${el.email}`%>
+                                                                      </h4>
+                                                                      <% let currentPost=postsConnected.find( post=> {%>
+                                                                        <% return `${post.user}`==`${el._id}` })%>
+                                                                          <h5>This is regarding the </h5>
+                                                                          <%= currentPost%>
+                                                                            <%= `${currentPost.title} for the
+                                                                              ${currentPost.description}` %>
+                                                                              <% }) %>
+                                                                  </ul>
+
+                                                          </ul>
+                                                          <%} else {%>
+                                                            <h5>You haven't interacted with any postings. Connect with
+                                                              ensembles to add some!</h5>
+                                                            <% } %>
+                                                              <% if (postsVirginal.length) {%>
+                                                                <h2>Available postings:</h2>
+                                                                <!--unanswered postings-->
+                                                                <ul class="row list-unstyled">
+                                                                  <% for(var i=0; i<postsVirginal.length; i++) {%>
+                                                                    <% let orgInfo=orgs.find( el=> {%>
+                                                                      <% return `${el._id}`==`${postsVirginal[i].user}`})%>
+                                                                        <li>
+                                                                          <h2>
+                                                                            <%= postsVirginal[i].title %>
+                                                                          </h2>
+                                                                          <h3>
+                                                                            for the
+                                                                            <%= postsVirginal[i].description %>.
+                                                                          </h3>
+                                                                          <h4>
+                                                                            this is for
+                                                                            <%= orgInfo %>
+                                                                          </h4>
+                                                                          
+                                                                          <% if (currUser.contactPending.indexOf(orgInfo._id) == -1){ %>
+                                                                            <form class="col-1"
+                                                                            action="/post/requestConnect/<%= postsVirginal[i].user %>/<%= currUser._id %>/?_method=PUT"
+                                                                            method="POST">
+                                                                            <button class="btn btn-primary"
+                                                                              type="submit">
+                                                                              <%= orgInfo.contactPending.indexOf(currUser._id) == -1 ? 'Connect' : 'Pending Request' %>
+                                                                            </button>
+                                                                          </form>
+                                                                            <%} else { %>
+                                                                            <form class="col-1"
+                                                                                action="/connections/confirmConnect/<%= postsVirginal[i].user %>/<%= currUser._id %>/?_method=PUT"
+                                                                                method="POST">
+                                                                                <button class="btn btn-primary" type="submit">Accept</button>
+                                                                              </form>
+                                                                            <% }%>
+                                                                        </li>
+                                                                        <% } %>
+                                                                </ul>
+                                                                <%} else {%>
+                                                                  <h2>Nothing to display!</h2>
+                                                                  <% } %>
+
+
+
                                                                     <% } %>
-                                                            </ul>
-                                                            <%} else {%>
-                                                              <h2>Nothing to display!</h2>
-                                                              <% } %>
-
-
-
-                                                                <% } %>
         </div>
       </div>
       <%- include('partials/footer') -%>
