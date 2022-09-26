@@ -10,6 +10,7 @@ const logger = require("morgan");
 const connectDB = require("./config/database");
 const mainRoutes = require("./routes/main");
 const postRoutes = require("./routes/posts");
+const connectionsRoutes = require("./routes/connections");
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });

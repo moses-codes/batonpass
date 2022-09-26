@@ -1,93 +1,183 @@
 <%- include('partials/header') -%>
-  <div class="container">
-    <div class="row justify-content-center mt-5">
-      <!--ENSEMBLE'S VIEW-->
-      <% if (currUser.isOrg) { %>
-        <h1>is ensemble</h1>
-        <!--Show only users that are NOT orgs.-->
-        <% let musicians=users.filter( el=> el.isOrg === false) %>
-          <% let connections=musicians.filter( el=> { %>
-            <% return currUser.contactConfirm.indexOf(el._id)> -1 %>
-              <% }) %>
 
-                <h1>
-                  friends
-                </h1>
-                <% connections.forEach( connection=> { %>
-
-                  <h2>
-                    <%= `${connection.givenName} ${connection.surName}` %>
-                  </h2>
-                  <h3>
-                    <%= `${connection.city}, ${connection.loc_state}`%>
-                  </h3>
-                  <h5>
-                    <%= connection.summary%>
-                  </h5>
-                  <p>
-                    <%= connection.bio%>
-                  </p>
-
-                  <% })%>
+  <% let musicians=users.filter( el=> el.isOrg === false) %>
+    <% let orgs=users.filter( el=> el.isOrg === true) %>
+      <div class="container">
+        <div class="row justify-content-center mt-5">
+          <!--ENSEMBLE'S VIEW-->
+          <% if (currUser.isOrg) { %>
+            <h1>is ensemble</h1>
+            <!--Show only users that are NOT orgs.-->
+            <% let connections=musicians.filter( el=> { %>
+              <% return currUser.contactConfirm.indexOf(el._id)> -1 %>
+                <% }) %>
+                  <% let nonConnections=musicians.filter( el=> { %>
+                    <% return currUser.contactConfirm.indexOf(el._id)==-1 %>
+                      <% }) %>
 
 
-                    <ul>
-                      <% for (let friend of currUser.contactPending) {%>
-                        <% let result=users.find(el=> el._id == friend) %>
-                          <% let id=result._id %>
-                            <% let name=`${result.givenName} ${result.surName}`%>
-                              <li>
-                                <h2>
-                                  <%= name %> wants to add you as a connection
-                                </h2>
-                                <form class="col-1"
-                                  action="/post/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
-                                  method="POST">
-                                  <button class="btn btn-primary" type="submit">Accept</button>
-                                </form>
-                              </li>
+                        <% if (connections.length){%>
+                          <h1>
+                            friends
+                          </h1>
+                          <% connections.forEach( connection=> { %>
 
-                              <%}%>
-                    </ul>
-
-                    <!--MUSICIAN'S VIEW-->
-
-                    <%}else{%>
-
-                      <h1>is musician</h1>
-                      <ul>
-
-                      </ul>
-
-                      <ul class="row list-unstyled">
-                        <% for(var i=0; i<posts.length; i++) {%>
-                          <li>
-                            <h1>
-                              <%= currUser.givenName%> is logged in.
-                            </h1>
-                            <h1>
-                              <%= posts[i] %>
-                            </h1>
                             <h2>
-                              <%= posts[i].title %>
+                              <%= `${connection.givenName} ${connection.surName}` %>
                             </h2>
                             <h3>
-                              for the
-                              <%= posts[i].description %>.
+                              <%= `${connection.city}, ${connection.loc_state}`%>
                             </h3>
-                            <form class="col-1"
-                              action="/post/requestConnect/<%= posts[i].user %>/<%= currUser._id %>/?_method=PUT"
-                              method="POST">
-                              <button class="btn btn-primary" type="submit">I'm interested!</button>
-                            </form>
-                            <form class="col-1" action="/post/requestConnect/<%= posts[i].user %>?_method=PUT"
-                              method="POST">
-                              <button class="btn btn-primary fa fa-bookmark" type="submit"></button>
-                            </form>
-                          </li>
-                          <% } %>
-                      </ul>
-                      <% } %>
-    </div>
-  </div>
-  <%- include('partials/footer') -%>
+                            <h5>
+                              <%= connection.summary%>
+                            </h5>
+                            <p>
+                              <%= connection.bio%>
+                            </p>
+
+                            <% })%>
+                              <% }else{%>
+                                <h4>
+                                  No connections yet.
+                                </h4>
+                                <% } %>
+                                  <!--Address pending connections-->
+                                  <ul>
+                                    <% for (let friend of currUser.contactPending) {%>
+                                      <% let result=users.find(el=> el._id == friend) %>
+                                        <% let id=result._id %>
+                                          <% let name=`${result.givenName} ${result.surName}`%>
+                                            <li>
+                                              <h2>
+                                                <%= name %> wants to add you as a connection
+                                              </h2>
+                                              <form class="col-1"
+                                                action="/post/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
+                                                method="POST">
+                                                <button class="btn btn-primary" type="submit">Accept</button>
+                                              </form>
+                                            </li>
+
+                                            <%}%>
+                                  </ul>
+
+                                  <h1>
+                                    Musicians available for hire
+                                  </h1>
+                                  <% if (nonConnections.length){%>
+                                    <ul>
+
+                                      <%nonConnections.forEach( el=> {%>
+
+                                        <li>
+                                          <%= el %>
+                                            <h3>
+                                              <%= `${el.givenName} ${el.surName}` %>
+                                            </h3>
+                                            <h4>
+                                              <%= `${el.city}, ${el.loc_state}` %>
+                                            </h4>
+                                            <p>
+                                              <%= el.summary %>
+                                            </p>
+                                            <form class="col-1" action="" method="POST">
+                                              <button class="btn btn-primary" type="submit">
+                                                Connect
+                                              </button>
+                                            </form>
+                                        </li>
+
+
+                                        <% }) %>
+                                    </ul>
+                                    <%}%>
+                                      <!--MUSICIAN'S VIEW-->
+
+                                      <%}else{%>
+                                        <h3>
+                                          <%= currUser.givenName %> is logged in. Their user object:
+                                        </h3>
+                                        <span>
+                                          <%= currUser%>
+                                        </span>
+                                        <span>is musician</span>
+
+                                        <% let postsConnected=posts.filter( el=> {%>
+                                          <% return currUser.contactConfirm.indexOf(el.user)> -1%>
+                                            <% })%>
+                                              <% let postsVirginal=posts.filter( el=> {%>
+                                                <% return currUser.contactConfirm.indexOf(el.user)==-1%>
+                                                  <% })%>
+
+                                                    <% if (postsConnected.length) {%>
+                                                      <ul class="row list-unstyled">
+                                                        <% let orgsConnected=orgs.filter(el=> { %>
+                                                          <%return currUser.contactConfirm.indexOf(el._id)> -1 %>
+                                                            <%})%>
+
+                                                              <h5>Hello, <%= currUser.givenName%>!</h5>
+                                                              <h5>You are connected with the following group(s):
+                                                              </h5>
+                                                              <ul>
+                                                                <% orgsConnected.forEach( el=> {%>
+                                                                  <h3>
+                                                                    <%= el.orgName%>
+                                                                  </h3>
+                                                                  <h4>
+                                                                    <%= `${el.givenName} ${el.surName}`%>
+                                                                  </h4>
+                                                                  <h4>
+                                                                    <%= `${el.email}`%>
+                                                                  </h4>
+                                                                  <% let currentPost=postsConnected.find( post=> {%>
+                                                                    <% return `${post.user}`==`${el._id}` })%>
+                                                                      <h5>This is regarding the </h5>
+                                                                      <%= currentPost%>
+                                                                        <%= `${currentPost.title} for the
+                                                                          ${currentPost.description}` %>
+                                                                          <% }) %>
+                                                              </ul>
+
+                                                      </ul>
+                                                      <%} else {%>
+                                                        <h2>No postings remain!</h2>
+                                                        <% } %>
+                                                          <% if (postsVirginal.length) {%>
+                                                            <h2>Available postings:</h2>
+                                                            <!--unanswered postings-->
+                                                            <ul class="row list-unstyled">
+                                                              <% for(var i=0; i<postsVirginal.length; i++) {%>
+                                                                <% let orgInfo=orgs.find( el=> {%>
+                                                                  <% return `${el._id}`==`${postsVirginal[i].user}`})%>
+                                                                    <li>
+                                                                      <h2>
+                                                                        <%= postsVirginal[i].title %>
+                                                                      </h2>
+                                                                      <h3>
+                                                                        for the
+                                                                        <%= postsVirginal[i].description %>.
+                                                                      </h3>
+                                                                      <h4>
+                                                                        this is for
+                                                                        <%= orgInfo %>
+                                                                      </h4>
+                                                                      <form class="col-1"
+                                                                        action="/post/requestConnect/<%= postsVirginal[i].user %>/<%= currUser._id %>/?_method=PUT"
+                                                                        method="POST">
+                                                                        <button class="btn btn-primary" type="submit">
+                                                                          Connect
+                                                                        </button>
+                                                                      </form>
+                                                                    </li>
+                                                                    <% } %>
+                                                            </ul>
+                                                            <%} else {%>
+                                                              <h2>Nothing to display!</h2>
+                                                              <% } %>
+
+
+
+                                                                <% } %>
+        </div>
+      </div>
+      <%- include('partials/footer') -%>

@@ -61,7 +61,9 @@ module.exports = {
   requestConnect: async (req, res) => {
     const targetUser = await User.findById(req.params.friend)
     try {
-      if (targetUser.contactPending.indexOf(req.params.user) !== -1) {
+      if (
+        targetUser.contactPending.indexOf(req.params.user) > -1 || targetUser.contactConfirm.indexOf(req.params.user) > -1
+      ) {
         console.log('friend request already sent!')
       } else {
         await targetUser.updateOne(
