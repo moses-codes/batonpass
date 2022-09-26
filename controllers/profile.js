@@ -44,12 +44,12 @@ module.exports = {
 
     changeSummary: async (req, res) => {
         try {
-            // await Post.findOneAndUpdate(
-            //   { _id: req.params.user },
-            //   {
-            //     $inc: { likes: 1 },
-            //   }
-            // );
+            await User.findOneAndUpdate(
+                { _id: req.params.user },
+                {
+                    $set: { summary: req.body.summary },
+                }
+            );
             console.log(req.body);
             res.redirect(`/profile`);
         } catch (err) {
