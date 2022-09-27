@@ -13,26 +13,32 @@
     integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
     crossorigin="anonymous" /> 
 
-    <link href="../../public/css/style.css" rel="stylesheet"> 
+    <link href="./css/style.css" rel="stylesheet"> 
   <link rel="stylesheet" href="../../dist/output.css" >
 </head>
 
 <body>
-  <header class="container navbar navbar-expand-lg flex ">
-    <div class="text-center me-5">
-      <h1 class=""><a href="/profile">BatonPass</a></h1>
-      <span>Gigs made easy.</span>
+  <header class="navbar justify-content-start">
+    <div class="text-center col-3">
+      <a href="/feed"><img src="./imgs/cover.png" style="height: 70px;"></a>
+      <span>Assemble your ensemble.</span>
     </div>
-    <div class="text-center me-5">
-      Profile
+    <div class="text-center col-1">
+      <a href="/profile">Profile</a>
     </div>
-    <div class="text-center me-5">
-      Gigs
+    <div class="position-relative text-center col-1">
+      <a href="/feed">Gigs 
+        <%if (currUser.contactPending.length){ %>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          <%= currUser.contactPending.length %>
+        <span class="visually-hidden">pending connections</span>
+        <% }%>
+      </a>
+      
     </div>
-  </ul>
   </header>
 
-  <hr>
+  <hr class="m-0">
 </body>
 
 </html>

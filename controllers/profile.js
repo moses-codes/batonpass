@@ -5,7 +5,7 @@ const User = require("../models/User");
 module.exports = {
     getProfile: async (req, res) => {
         try {
-            const posts = await Post.find({ user: req.user.id });
+            const posts = await Post.find({ currUser: req.user.id });
             res.render("profile.ejs", { posts: posts, user: req.user });
         } catch (err) {
             console.log(err);

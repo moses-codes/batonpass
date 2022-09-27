@@ -2,21 +2,21 @@
   <div class="container">
     <div class="row mt-5">
 
-      <h2 class="display-5">User info</h2>
+      <h2 class="display-5">Your profile</h2>
       <div class="w-50">
-          <form action="/profile/changeSummary/<%= user._id%>/?_method=PUT" method="POST">
+          <form action="/profile/changeSummary/<%= currUser._id%>/?_method=PUT" method="POST">
             <div class="mb-3">
               <label for="summary" class="form-label" "><h4>Change Summary (under 240 characters)</h4></label>
               <textarea class="form-control" id="summary" name="summary"
-                placeholder="Keep this under 240 characters." style="height:100px; "><%= user.summary%></textarea>
+                placeholder="Keep this under 240 characters." style="height:100px; "><%= currUser.summary%></textarea>
             </div>
             <button type="submit" class="btn btn-secondary col-3">Submit</button>
           </form>
   
-          <form action="/profile/changeBio/<%= user._id%>/?_method=PUT" method="POST">
+          <form action="/profile/changeBio/<%= currUser._id%>/?_method=PUT" method="POST">
             <div class="mb-3 mt-3">
               <label for="bio" class="form-label"><h4>Change bio</h4></label>
-              <textarea class="form-control" id="bio" name="bio" style="height:400px"><%= user.bio%></textarea>
+              <textarea class="form-control" id="bio" name="bio" style="height:400px"><%= currUser.bio%></textarea>
             </div>
             <button type="submit" class="btn btn-secondary col-3">Submit</button>
           </form>
@@ -24,21 +24,21 @@
         </div>
       <div class="w-50 mt-4">
         <div>
-          <% if (user.isOrg) {%>
-            <p><strong>Organization Name</strong>: <%= user.orgName %>
+          <% if (currUser.isOrg) {%>
+            <p><strong>Organization Name</strong>: <%= currUser.orgName %>
             </p>
-            <p>Contact name: <%= `${user.givenName} ${user.surName}`%></p>
+            <p>Contact name: <%= `${currUser.givenName} ${currUser.surName}`%></p>
           <% }else{ %>
-          <p><strong>User Name</strong>: <%= `${user.givenName} ${user.surName}` %>
+          <p><strong>Display Name</strong>: <%= `${currUser.givenName} ${currUser.surName}` %>
           </p>
           <%}%>
-          <p><strong>Location</strong>: <%= `${user.city}, ${user.loc_state}` %>
+          <p><strong>Location</strong>: <%= `${currUser.city}, ${currUser.loc_state}` %>
           </p>
-          <p><strong>Email</strong>: <%= user.email %>
+          <p><strong>Email</strong>: <%= currUser.email %>
           </p>
-          <p><strong>Summary</strong>: <%= user.summary %>
+          <p><strong>Summary</strong>: <%= currUser.summary %>
           </p>
-          <p><strong>Bio</strong>: <%= user.bio %>
+          <p><strong>Bio</strong>: <%= currUser.bio %>
           </p>
           
           <a href="/logout" class="col-3 btn btn-secondary">Logout</a> <a class="col-3 btn btn-primary" href="/feed">Return to Feed</a>
@@ -50,8 +50,8 @@
   </div>
   </div>
   <div class="mt-5 w-50">
-    <% if (user.isOrg) { %>
-      <h1>THE USER IS AN Organization</h1>
+    <% if (currUser.isOrg) { %>
+      <h1>THE currUser IS AN Organization</h1>
       <div class="mt-5">
         <h2>Add a post</h2>
         <form action="/post/createPost" enctype="multipart/form-data" method="POST">
@@ -70,25 +70,6 @@
             <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
         </form>
       </div>
-      <% } else { %>
-        <h1>USER IS A MUSICIAN</h1>
-        <h3>
-          <%= user%>
-        </h3>
-        <% } %>
+      <% } %>
   </div>
-      <div class="">
-        <ul class="row list-unstyled">
-          <% for(var i=0; i<posts.length; i++) {%>
-            <li class="col-6 justify-content-between mt-5">
-              <a href="/post/<%= posts[i]._id%>">
-                <img class="img-fluid" src="<%= posts[i].image%>">
-              </a>
-            </li>
-            <% } %>
-        </ul>
-        <div class="row justify-content-center mt-5 w-25">
-          <a class="btn btn-primary" href="/feed">Return to Feed</a>
-        </div>
-      </div>
   <%- include('partials/footer') -%>

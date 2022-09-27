@@ -103,6 +103,7 @@ exports.postSignup = (req, res, next) => {
     city: req.body.city,
     loc_state: req.body.state,
     email: req.body.email,
+    orgName: req.body.orgName,
     isOrg: req.body.isOrg,
     password: req.body.password,
   });
