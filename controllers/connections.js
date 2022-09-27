@@ -84,6 +84,7 @@ module.exports = {
             const targetUserID = req.params.friend
             const targetUser = await User.find({ _id: targetUserID })
             const currUser = await User.find({ _id: req.params.user })
+
             await User.findOneAndUpdate(
                 {
                     _id: targetUserID,
