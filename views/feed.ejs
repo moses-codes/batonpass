@@ -220,8 +220,9 @@
                                                                             action="/post/requestConnect/<%= postsVirginal[i].user %>/<%= currUser._id %>/?_method=PUT"
                                                                             method="POST">
                                                                             <button class="btn btn-primary"
+                                                                            <%= orgInfo.contactPending.indexOf(currUser._id) == -1 ? '' : 'disabled' %>
                                                                               type="submit">
-                                                                              <%= orgInfo.contactPending.indexOf(currUser._id) == -1 ? 'Connect' : 'Pending Request' %>
+                                                                              <%= orgInfo.contactPending.indexOf(currUser._id) == -1 ? 'Connect' : 'Pending' %>
                                                                             </button>
                                                                           </form>
                                                                             <%} else { %>

@@ -10,7 +10,7 @@
               <textarea class="form-control" id="summary" name="summary"
                 placeholder="Keep this under 240 characters." style="height:100px; "><%= user.summary%></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-secondary col-3">Submit</button>
           </form>
   
           <form action="/profile/changeBio/<%= user._id%>/?_method=PUT" method="POST">
@@ -18,7 +18,7 @@
               <label for="bio" class="form-label"><h4>Change bio</h4></label>
               <textarea class="form-control" id="bio" name="bio" style="height:400px"><%= user.bio%></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-secondary col-3">Submit</button>
           </form>
   
         </div>
@@ -41,7 +41,7 @@
           <p><strong>Bio</strong>: <%= user.bio %>
           </p>
           
-          <a href="/logout" class="col-3 btn btn-primary">Logout</a>
+          <a href="/logout" class="col-3 btn btn-secondary">Logout</a> <a class="col-3 btn btn-primary" href="/feed">Return to Feed</a>
         </div>
       </div>
 
