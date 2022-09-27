@@ -62,6 +62,6 @@ app.use('/connections', connectionsRoutes)
 app.use('/profile', profileRoutes)
 
 //Server Running
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || '0.0.0.0:$PORT', () => {
   console.log("Server is running, you better catch it!");
 });
