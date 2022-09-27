@@ -3,23 +3,32 @@
     <div class="row justify-content-center mt-5">
       <% if (currUser.isOrg) { %>
         <h1>isOrg</h1>
+        <ul class="row list-unstyled">
+          <% for(var i=0; i<users.length; i++) {%>
+            <li>
+              <%= users[i] %>
+                <h2>
+                  <%= users[i].givenName%>
+                    <%= users[i].surName%>
+                </h2>
+                <p>
+                  <%= users[i].summary%>
+                </p>
+            </li>
+            <% } %>
+        </ul>
         <%}else{%>
           <h1>isOrgn't</h1>
+          <ul class="row list-unstyled">
+            <% for(var i=0; i<posts.length; i++) {%>
+              <li>
+                <%= posts[i] %>
+              </li>
+              <% } %>
+          </ul>
           <% } %>
-            <ul class="row list-unstyled">
-              <% for(var i=0; i<posts.length; i++) {%>
-                <li>
-                  <%= posts[i] %>
-                </li>
-                <% } %>
-            </ul>
-            <ul class="row list-unstyled">
-              <% for(var i=0; i<users.length; i++) {%>
-                <li>
-                  <%= users[i] %>
-                </li>
-                <% } %>
-            </ul>
+
+
     </div>
   </div>
   <%- include('partials/footer') -%>
