@@ -49,26 +49,40 @@
     
   </div>
   </div>
-  <div class="mt-5 w-50">
-    <% if (currUser.isOrg) { %>
-      <h1 class="m-5 display-5">Add a post</h1>
-      <div class="m-5 container">
-        <form action="/post/createPost" enctype="multipart/form-data" method="POST">
-          <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="What kind of musician are you looking for?">
-          </div>
-          <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description" placeholder="Briefly describe the nature of the role."></textarea>
-            <!-- </div>
-          <div class="mb-3">
-            <label for="imgUpload" class="form-label">Image</label>
-            <input type="file" class="form-control" id="imageUpload" name="file">
-          </div> -->
-            <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
+
+  <% if (currUser.isOrg) { %>
+  <section class="d-flex mt-5 container">
+    <div class="w-50 me-3">
+        <h1 class="display-5">Add a post</h1>
+          <form action="/post/createPost" enctype="multipart/form-data" method="POST">
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" name="title" placeholder="What kind of musician are you looking for?">
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" name="description" placeholder="Briefly describe the nature of the role."></textarea>
+              <button type="submit" class="btn btn-primary">Post</button>
+              </div>
+          </form>
+    </div>
+    <div class="w-50 me-3">
+      <ul class="list-group">
+      <% for(var i=0; i<posts.length; i++) {%>
+
+        <h1>Active postings</h1>
+        <li class="list-group-item justify-content-between mt-5">
+         
+          <h3><%= posts[i].title%></h3>
+          <p><%= posts[i].description%></p>
+         <form action="/post/deletePost/<%= posts[i].id %>?_method=DELETE" method="POST">
+          <button class="btn btn-primary fa fa-trash" type="submit"></button>
         </form>
-      </div>
+        </li>
       <% } %>
-  </div>
+      </ul>
+    </div> 
+</section>
+
+<% } %>
   <%- include('partials/footer') -%>

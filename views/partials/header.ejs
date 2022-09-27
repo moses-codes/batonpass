@@ -38,6 +38,11 @@
       </a>
       
     </div>
+    <% if (currUser.isOrg) { %>
+      <div class="text-center col-1">
+        <a href="/profile" class="text-decoration-none">Posts</a>
+      </div>
+    <% } %>
   </header>
 
   <hr class="m-0">
