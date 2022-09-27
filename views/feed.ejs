@@ -6,9 +6,11 @@
         
           <!--ENSEMBLE'S VIEW-->
           <% if (currUser.isOrg) { %>
-            
-            <h1 class="">Hello, <%= `${currUser.givenName} ${currUser.surName}`%> </h1>
-            <h2>You are seen as: <%= currUser.orgName%></h2>
+          <div class="userGreeting">
+            <h1 class="mt-5">Hello, <%= `${currUser.givenName} ${currUser.surName}`%> </h1>
+            <h5>You are seen as: <%= currUser.orgName%></h5>
+          </div>
+
             <div class="row justify-content-center mt-5">
             <div class=" w-25">
             <!--Show only users that are NOT orgs.-->
@@ -43,7 +45,7 @@
 
                                     <%}%>
                           <% connections.forEach( connection=> { %>
-                            <li class="list-group-item w-100 p-3">
+                            <li class="list-group-item w-100 py-4">
                             <h2>
                               <%= `${connection.givenName} ${connection.surName}` %>
                             </h2>
@@ -84,14 +86,16 @@
 
                                       <%nonConnections.forEach( el=> {%>
 
-                                        <li class="list-group-item <%= currUser.contactPending.indexOf(el._id) ? `` : `list-group-item-warning` %>">
-                                          
+                                        <li class="d-flex list-group-item <%= currUser.contactPending.indexOf(el._id) ? `` : `list-group-item-warning` %>">
+                                          <div class="w-50">
                                             <h3>
                                               <%= `${el.givenName} ${el.surName}` %>
                                             </h3>
                                             <h4>
                                               <%= `${el.city}, ${el.loc_state}` %>
                                             </h4>
+                                          </div>
+                                          <div class="w-50">
                                             <p>
                                               <%= el.summary %>
                                             </p>
@@ -99,8 +103,10 @@
                                             <form class="col-1"
                                               action="/connections/requestConnect/<%= el._id %>/<%= currUser._id %>/?_method=PUT"
                                               method="POST">
-                                              <button class="btn btn-primary" type="submit">
-                                                <%= el.contactPending.indexOf(currUser._id) == -1 ? 'Connect' : 'Pending Request' %>
+                                              <button class="btn btn-primary" type="submit" 
+                                              <%= el.contactPending.indexOf(currUser._id) == -1 ? '' : 'disabled'; %> 
+                                              >
+                                                <%= el.contactPending.indexOf(currUser._id) == -1 ? 'Connect' : 'Pending' %>
                                               </button>
                                             </form>
                                             <%} else { %>
@@ -110,6 +116,7 @@
                                                 <button class="btn btn-primary" type="submit">Accept</button>
                                               </form>
                                             <% }%>
+                                          </div>
                                         </li>
 
 
@@ -126,8 +133,9 @@
                                       <!--MUSICIAN'S VIEW-->
 
                                       <%}else{%>
+                                        <div class="userGreeting">
                                         <h1 class="text-left mt-5 w-auto display-4">Hello, <%= `${currUser.givenName} ${currUser.surName}`%> </h1>
-
+                                        </div>
                                         <% let postsConnected=posts.filter( el=> {%>
                                           <% return currUser.contactConfirm.indexOf(el.user)> -1%>
                                             <% })%>
@@ -183,7 +191,7 @@
                                                               <% let name=`${result.givenName} ${result.surName}`%>
                                                                 <li>
                                                                   <h2>
-                                                                    <%= name %> wants to add you as a connection
+                                                                    <%= name %> from <%= result.orgName%> wants to add you as a connection
                                                                   </h2>
                                                                   <form class="col-1"
                                                                     action="/connections/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
@@ -205,9 +213,10 @@
                                                                       <% let id=result._id %>
                                                                         <% let name=`${result.givenName} ${result.surName}`%>
                                                                           <li class="list-group-item list-group-item-warning">
-                                                                            <h2>
-                                                                              <%= `${name} from ${el.orgName}` %> wants to add you as a connection
-                                                                            </h2>
+                                                                            <p>
+                                                                              <strong><%= `${name}` %> </strong> from <%= `${result.orgName}` %> 
+                                                                              wants to add you as a connection
+                                                                            </p>
                                                                             <form class="col-1"
                                                                               action="/connections/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
                                                                               method="POST">

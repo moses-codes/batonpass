@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row mt-5">
 
-      <h2 class="display-5">Your profile</h2>
+      <h1 class="display-5 mt-3">Your profile</h1>
       <div class="w-50">
           <form action="/profile/changeSummary/<%= currUser._id%>/?_method=PUT" method="POST">
             <div class="mb-3">
@@ -10,15 +10,15 @@
               <textarea class="form-control" id="summary" name="summary"
                 placeholder="Keep this under 240 characters." style="height:100px; "><%= currUser.summary%></textarea>
             </div>
-            <button type="submit" class="btn btn-secondary col-3">Submit</button>
+            <button type="submit" class="btn btn-secondary col-3">Change</button>
           </form>
   
           <form action="/profile/changeBio/<%= currUser._id%>/?_method=PUT" method="POST">
             <div class="mb-3 mt-3">
               <label for="bio" class="form-label"><h4>Change bio</h4></label>
-              <textarea class="form-control" id="bio" name="bio" style="height:400px"><%= currUser.bio%></textarea>
+              <textarea class="form-control" id="bio" name="bio" style="height:250px"><%= currUser.bio%></textarea>
             </div>
-            <button type="submit" class="btn btn-secondary col-3">Submit</button>
+            <button type="submit" class="btn btn-secondary col-3">Change</button>
           </form>
   
         </div>
@@ -27,7 +27,7 @@
           <% if (currUser.isOrg) {%>
             <p><strong>Organization Name</strong>: <%= currUser.orgName %>
             </p>
-            <p>Contact name: <%= `${currUser.givenName} ${currUser.surName}`%></p>
+            <p><strong>Contact name</strong>: <%= `${currUser.givenName} ${currUser.surName}`%></p>
           <% }else{ %>
           <p><strong>Display Name</strong>: <%= `${currUser.givenName} ${currUser.surName}` %>
           </p>
@@ -51,9 +51,8 @@
   </div>
   <div class="mt-5 w-50">
     <% if (currUser.isOrg) { %>
-      <h1>THE currUser IS AN Organization</h1>
-      <div class="mt-5">
-        <h2>Add a post</h2>
+      <h1 class="m-5 display-5">Add a post</h1>
+      <div class="m-5 container">
         <form action="/post/createPost" enctype="multipart/form-data" method="POST">
           <div class="mb-3">
             <label for="title" class="form-label">Title</label>

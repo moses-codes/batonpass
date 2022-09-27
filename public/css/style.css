@@ -3,9 +3,12 @@ header {
     position:absolute;
     z-index: 3;
     width: 100%;
-    background: whitesmoke;
 }
 /**/
+
+h1{
+    font-family: 'Gelasio', serif;
+}
 
 /*Background imgs*/
 .index {
@@ -82,4 +85,12 @@ header {
 
 .signup-content{
     position:relative;
+}
+
+.userGreeting {
+    margin: 150px 0 150px 0;
+}
+
+.userGreeting h1 {
+    color:rgb(54,63,204);
 }
