@@ -1,6 +1,7 @@
-#BatonPass - assemble your ensemble.
+# BatonPass - assemble your ensemble.
 
 BatonPass is a social network for ensembles and musicians to better find each other.
+
 ---
 # Tech used
 I implemented HTML, CSS, and JavaScript for both front and back end (Node/Express), as well as Mongoose for the MongoDB Atlas database, and the templating language EJS to handle the client-side views. 
