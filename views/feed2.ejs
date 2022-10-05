@@ -6,7 +6,7 @@
     <div class="userGreeting">
       <h1 class="mt-5">Hello, <%= `${currUser.givenName} ${currUser.surName}`%>
       </h1>
-      <% if (currUser.isOrg) { %>
+      <% if (user.isOrg) { %>
          <h5>You are seen as: <%= currUser.orgName%>
          </h5>
       <%  } %>  
@@ -15,69 +15,74 @@
 
         <!--ENSEMBLE'S VIEW-->
         <% if (currUser.isOrg) { %>
-        
+          
+
           <div class="row justify-content-center mt-5">
             <div class=" w-25">
               <!--Show only users that are NOT orgs.-->
               <% let connections=musicians.filter( el=> { %>
-              <% return currUser.contactConfirm.indexOf(el._id)> -1 %>
-              <% }) %>
-              <% let nonConnections=musicians.filter( el=> { %>
-              <% return currUser.contactConfirm.indexOf(el._id)==-1 %>
-              <% }) %>
-              <div class="connections-container">
-                <% if (connections.length){%>
-                  <p class="lead">
-                    You have connected with the following musicians.
-                  </p>
-                  <ul class="list-group">
-                <% for (let friend of currUser.contactPending) {%>
-                <% let result=users.find(el=> el._id == friend) %>
-                <% let id=result._id %>
-                  <% let name=`${result.givenName} ${result.surName}`%>
-                  <li class="list-group-item list-group-item-warning w-100 p-3">
-                    <h2>
-                      <%= name %>
-                    </h2>
-                    <h5>wants to connect with you!</h5>
-                    <p>
-                      <%=result.summary%>
-                    </p>
-                    <form class="col-1"
-                      action="/connections/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
-                      method="POST">
-                      <button class="btn btn-primary" type="submit">Accept</button>
-                    </form>
-                    
-                  <%}%>
-                    <% connections.forEach( connection=> { %>
-                      <li class="list-group-item w-100 py-4">
-                        <h2>
-                          <%= `${connection.givenName} ${connection.surName}` %>
-                        </h2>
-                        <h3>
-                          <%= `${connection.city}, ${connection.loc_state}`%>
-                        </h3>
-                        <h5>
-                          <%= connection.summary%>
-                        </h5>
-                        <p>
-                          <%= connection.bio%>
-                        </p>
-                        <p>
-                          <%= connection.email %>
-                        </p>
-                      </li>
-                      <%
-                  </ul>
-                  <% }else{%>
-                    <h4>
-                      No connections yet.
-                    </h4>
-                    <% } %>
-                      <!--Address pending connections-->
-                      <ul class="mx-5 border border-second
-                      
+                <% return currUser.contactConfirm.indexOf(el._id)> -1 %>
+                  <% }) %>
+                    <% let nonConnections=musicians.filter( el=> { %>
+                      <% return currUser.contactConfirm.indexOf(el._id)==-1 %>
+                        <% }) %>
+                          <div class="connections-container">
+                            <% if (connections.length){%>
+                              <p class="lead">
+                                You have connected with the following musicians.
+                              </p>
+                              <ul class="list-group">
+                                <% for (let friend of currUser.contactPending) {%>
+                                  <% let result=users.find(el=> el._id == friend) %>
+                                    <% let id=result._id %>
+                                      <% let name=`${result.givenName} ${result.surName}`%>
+                                        <li class="list-group-item list-group-item-warning w-100 p-3">
+                                          <h2>
+                                            <%= name %>
+                                          </h2>
+                                          <h5>wants to connect with you!</h5>
+                                          <p>
+                                            <%=result.summary%>
+                                          </p>
+                                          <form class="col-1"
+                                            action="/connections/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
+                                            method="POST">
+                                            <button class="btn btn-primary" type="submit">Accept</button>
+                                          </form>
+                                        </li>
+
+                                        <%}%>
+                                          <% connections.forEach( connection=> { %>
+                                            <li class="list-group-item w-100 py-4">
+                                              <h2>
+                                                <%= `${connection.givenName} ${connection.surName}` %>
+                                              </h2>
+                                              <h3>
+                                                <%= `${connection.city}, ${connection.loc_state}`%>
+                                              </h3>
+                                              <h5>
+                                                <%= connection.summary%>
+                                              </h5>
+                                              <p>
+                                                <%= connection.bio%>
+                                              </p>
+                                              <p>
+                                                <%= connection.email %>
+                                              </p>
+                                            </li>
+                                            <% })%>
+
+                              </ul>
+                              <% }else{%>
+                                <h4>
+                                  No connections yet.
+                                </h4>
+                                <% } %>
+                                  <!--Address pending connections-->
+                                  <ul class="mx-5 border border-secondary">
+
+                                  </ul>
+
                           </div>
             </div>
             <div class="w-75 px-5">
@@ -87,44 +92,46 @@
                 </h1>
                 <div class="flex">
 
-              <%nonConnections.forEach( el=> {%>
-                <div class="card m-5 w-96 bg-base-100 shadow-xl <%= currUser.contactPending.indexOf(el._id) ? `` : `list-group-item-warning` %>">
-                  <figure className="px-10 pt-10">
-                    <img src="https://placeimg.com/400/225/arch" alt="Shoes" className="rounded-xl" />
-                  </figure>
-                  <div class="card-body">
-                    <h3>
-                      <%= `${el.givenName} ${el.surName}` %>
-                    </h3>
-                    <h4>
-                      <%= `${el.city}, ${el.loc_state}` %>
-                    </h4>
-                    <p>
-                      <%= el.summary %>
-                    </p>
-                    <div class="w-50">
-                    
-                      <% if (currUser.contactPending.indexOf(el._id)){ %>
-                        <form class="col-1"
-                          action="/connections/requestConnect/<%= el._id %>/<%= currUser._id %>/?_method=PUT"
-                          method="POST">
-                          <button class="btn btn-primary" type="submit" <%=el.contactPending.indexOf(currUser._id)==-1 ? '' : 'disabled' ; %>
-                            >
-                            <%= el.contactPending.indexOf(currUser._id)==-1 ? 'Connect' : 'Pending' %>
-                          </button>
-                        </form>
-                        <%} else { %>
-                          <form class="col-1"
-                            action="/connections/confirmConnect/<%= el._id %>/<%= currUser._id %>/?_method=PUT"
-                            method="POST">
-                            <button class="btn btn-primary" type="submit">Accept</button>
-                          </form>
-                          <% }%>
+                  <%nonConnections.forEach( el=> {%>
+                    <div class="card m-5 w-96 bg-base-100 shadow-xl <%= currUser.contactPending.indexOf(el._id) ? `` : `list-group-item-warning` %>">
+                      <figure className="px-10 pt-10">
+                        <img src="https://placeimg.com/400/225/arch" alt="Shoes" className="rounded-xl" />
+                      </figure>
+                      <div class="card-body">
+                        <h3>
+                          <%= `${el.givenName} ${el.surName}` %>
+                        </h3>
+                        <h4>
+                          <%= `${el.city}, ${el.loc_state}` %>
+                        </h4>
+                        <p>
+                          <%= el.summary %>
+                        </p>
+                        <div class="w-50">
+                        
+                          <% if (currUser.contactPending.indexOf(el._id)){ %>
+                            <form class="col-1"
+                              action="/connections/requestConnect/<%= el._id %>/<%= currUser._id %>/?_method=PUT"
+                              method="POST">
+                              <button class="btn btn-primary" type="submit" <%=el.contactPending.indexOf(currUser._id)==-1 ? '' : 'disabled' ; %>
+                                >
+                                <%= el.contactPending.indexOf(currUser._id)==-1 ? 'Connect' : 'Pending' %>
+                              </button>
+                            </form>
+                            <%} else { %>
+                              <form class="col-1"
+                                action="/connections/confirmConnect/<%= el._id %>/<%= currUser._id %>/?_method=PUT"
+                                method="POST">
+                                <button class="btn btn-primary" type="submit">Accept</button>
+                              </form>
+                              <% }%>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              
-                <% }) %>
+                  
+
+
+                    <% }) %>
                   </div>
                 <%} else {%>
                   <h1 class="my-6">
@@ -137,6 +144,10 @@
           <!--MUSICIAN'S VIEW-->
 
           <%}else{%>
+            <div class="userGreeting">
+              <h1 class="text-left mt-5 w-auto display-4">Hello, <%= `${currUser.givenName} ${currUser.surName}`%>
+              </h1>
+            </div>
             <% let postsConnected=posts.filter( el=> {%>
               <% return currUser.contactConfirm.indexOf(el.user)> -1%>
                 <% })%>
