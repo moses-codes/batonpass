@@ -12,21 +12,6 @@ module.exports = {
         }
     },
 
-    // likePost: async (req, res) => {
-    //   try {
-    //     await Post.findOneAndUpdate(
-    //       { _id: req.params.id },
-    //       {
-    //         $inc: { likes: 1 },
-    //       }
-    //     );
-    //     console.log("Likes +1");
-    //     res.redirect(`/post/${req.params.id}`);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // },
-
     changeBio: async (req, res) => {
         try {
             await User.findOneAndUpdate(
@@ -48,6 +33,27 @@ module.exports = {
                 { _id: req.params.user },
                 {
                     $set: { summary: req.body.summary },
+                }
+            );
+            console.log(req.body);
+            res.redirect(`/profile`);
+        } catch (err) {
+            console.log(err);
+        }
+    },
+    changeInfo: async (req, res) => {
+        try {
+            await User.findOneAndUpdate(
+                { _id: req.params.user },
+                {
+                    $set: {
+                        orgName: req.body.orgName,
+                        givenName: req.body.givenName,
+                        surName: req.body.surName,
+                        city: req.body.city,
+                        loc_state: req.body.loc_state,
+                        email: req.body.email, 
+                    },
                 }
             );
             console.log(req.body);

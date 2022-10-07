@@ -3,10 +3,10 @@
   <% let musicians=users.filter( el=> el.isOrg === false) %>
     <% let orgs=users.filter( el=> el.isOrg === true) %>
 
-    <div class="userGreeting">
+    <div class="userGreeting container">
       <h1 class="mt-5">Hello, <%= `${currUser.givenName} ${currUser.surName}`%>
       </h1>
-      <% if (user.isOrg) { %>
+      <% if (currUser.isOrg) { %>
          <h5>You are seen as: <%= currUser.orgName%>
          </h5>
       <%  } %>  
@@ -36,40 +36,40 @@
                   <% let result=users.find(el=> el._id == friend) %>
                     <% let id=result._id %>
                       <% let name=`${result.givenName} ${result.surName}`%>
-                        <li class="list-group-item list-group-item-warning w-100 p-3">
-                          <h2>
-                            <%= name %>
-                          </h2>
-                          <h5>wants to connect with you!</h5>
-                          <p>
-                            <%=result.summary%>
-                          </p>
-                          <form class="col-1"
-                            action="/connections/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
-                            method="POST">
-                            <button class="btn btn-primary" type="submit">Accept</button>
-                          </form>
+                      <li class="list-group-item list-group-item-warning w-100 p-3">
+                        <h2>
+                          <%= name %>
+                        </h2>
+                        <h5>wants to connect with you!</h5>
+                        <p>
+                          <%=result.summary%>
+                        </p>
+                        <form class="col-1"
+                          action="/connections/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
+                          method="POST">
+                          <button class="btn btn-primary" type="submit">Accept</button>
+                        </form>
                     
-                        <%}%>
-                          <% connections.forEach( connection=> { %>
-                            <li class="list-group-item w-100 py-4">
-                              <h2>
-                                <%= `${connection.givenName} ${connection.surName}` %>
-                              </h2>
-                              <h3>
-                                <%= `${connection.city}, ${connection.loc_state}`%>
-                              </h3>
-                              <h5>
-                                <%= connection.summary%>
-                              </h5>
-                              <p>
-                                <%= connection.bio%>
-                              </p>
-                              <p>
-                                <%= connection.email %>
-                              </p>
-                            </li>
-                            <% })%>
+                    <%}%>
+                      <% connections.forEach( connection=> { %>
+                        <li class="list-group-item w-100 py-4">
+                          <h2>
+                            <%= `${connection.givenName} ${connection.surName}` %>
+                          </h2>
+                          <h3>
+                            <%= `${connection.city}, ${connection.loc_state}`%>
+                          </h3>
+                          <h5>
+                            <%= connection.summary%>
+                          </h5>
+                          <p>
+                            <%= connection.bio%>
+                          </p>
+                          <p>
+                            <%= connection.email %>
+                          </p>
+                        </li>
+                        <% })%>
 
                               </ul>
                               <% }else{%>
@@ -77,13 +77,14 @@
                                   No connections yet.
                                 </h4>
                                 <% } %>
-                                  <!--Address pending connections-->
-                                  <ul class="mx-5 border border-secondary">
+                              <!--Address pending connections-->
 
-                                  </ul>
+                              <ul class="mx-5 border border-secondary">
+                              </ul>
 
                           </div>
             </div>
+
             <div class="w-75 px-5">
               <% if (nonConnections.length){%>
                 <h1>
@@ -92,47 +93,44 @@
                 <div class="flex">
 
                   <%nonConnections.forEach( el=> {%>
-                    <div class="card m-5 w-96 bg-base-100 shadow-xl <%= currUser.contactPending.indexOf(el._id) ? `` : `list-group-item-warning` %>">
-                      <figure className="px-10 pt-10">
-                        <img src="https://placeimg.com/400/225/arch" alt="Shoes" className="rounded-xl" />
-                      </figure>
-                      <div class="card-body">
-                        <h3>
-                          <%= `${el.givenName} ${el.surName}` %>
-                        </h3>
-                        <h4>
-                          <%= `${el.city}, ${el.loc_state}` %>
-                        </h4>
-                        <p>
-                          <%= el.summary %>
-                        </p>
-                        <div class="w-50">
+                  <div class="card m-5 w-96 bg-base-100 shadow-xl <%= currUser.contactPending.indexOf(el._id) ? `` : `list-group-item-warning` %>">
+                    <figure className="px-10 pt-10">
+                      <img src="https://placeimg.com/400/225/arch" alt="Shoes" className="rounded-xl" />
+                    </figure>
+                    <div class="card-body">
+                      <h3>
+                        <%= `${el.givenName} ${el.surName}` %>
+                      </h3>
+                      <h4>
+                        <%= `${el.city}, ${el.loc_state}` %>
+                      </h4>
+                      <p>
+                        <%= el.summary %>
+                      </p>
+                      <div class="w-50">
                         
-                          <% if (currUser.contactPending.indexOf(el._id)){ %>
-                            <form class="col-1"
-                              action="/connections/requestConnect/<%= el._id %>/<%= currUser._id %>/?_method=PUT"
-                              method="POST">
-                              <button class="btn btn-primary" type="submit" <%=el.contactPending.indexOf(currUser._id)==-1 ? '' : 'disabled' ; %>
-                                >
-                                <%= el.contactPending.indexOf(currUser._id)==-1 ? 'Connect' : 'Pending' %>
-                              </button>
-                            </form>
-                            <%} else { %>
-                              <form class="col-1"
-                                action="/connections/confirmConnect/<%= el._id %>/<%= currUser._id %>/?_method=PUT"
-                                method="POST">
-                                <button class="btn btn-primary" type="submit">Accept</button>
-                              </form>
-                              <% }%>
-                        </div>
+                      <% if (currUser.contactPending.indexOf(el._id)){ %>
+                        <form class="col-1"
+                          action="/connections/requestConnect/<%= el._id %>/<%= currUser._id %>/?_method=PUT"
+                          method="POST">
+                          <button class="btn btn-primary" type="submit" <%=el.contactPending.indexOf(currUser._id)==-1 ? '' : 'disabled' ; %>
+                            >
+                            <%= el.contactPending.indexOf(currUser._id)==-1 ? 'Connect' : 'Pending' %>
+                          </button>
+                        </form>
+                        <%} else { %>
+                          <form class="col-1"
+                            action="/connections/confirmConnect/<%= el._id %>/<%= currUser._id %>/?_method=PUT"
+                            method="POST">
+                            <button class="btn btn-primary" type="submit">Accept</button>
+                          </form>
+                          <% }%>
+                      </div>
                       </div>
                     </div>
-                  
-
-
                     <% }) %>
                   </div>
-                <%} else {%>
+                  <%} else {%>
                   <h1 class="my-6">
                     No musicians are available for hire right now. Check back later.
                   </h1>
@@ -148,157 +146,150 @@
               </h1>
             </div>
             <% let postsConnected=posts.filter( el=> {%>
-              <% return currUser.contactConfirm.indexOf(el.user)> -1%>
-                <% })%>
-                  <% let postsVirginal=posts.filter( el=> {%>
-                    <% return currUser.contactConfirm.indexOf(el.user)==-1%>
-                      <% })%>
-                        <div class="row justify-content-center mt-5">
-                          <div class="p-0 w-25">
-                            <!--Pending requests-->
+            <% return currUser.contactConfirm.indexOf(el.user)> -1%>
+            <% })%>
 
-                            <% if (postsConnected.length) {%>
+            <% let postsVirginal=posts.filter( el=> {%>
+            <% return currUser.contactConfirm.indexOf(el.user)==-1%>
+            <% })%>
 
-                              <% let orgsConnected=orgs.filter(el=> { %>
-                                <%return currUser.contactConfirm.indexOf(el._id)> -1 %>
-                                  <%})%>
-                                    <h5>You are connected with the following group(s):
-                                    </h5>
-                                    <ul class="list-group">
-                                      <% for (let friend of currUser.contactPending) {%>
-                                        <% let result=users.find(el=> el._id == friend) %>
-                                          <% let id=result._id %>
-                                            <% let name=`${result.givenName} ${result.surName}`%>
-                                              <li class="list-group-item">
-                                                <h2>
-                                                  <%= name %> wants to add you as a connection
-                                                </h2>
-                                                <form class="col-1"
-                                                  action="/connections/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
-                                                  method="POST">
-                                                  <button class="btn btn-primary" type="submit">Accept</button>
-                                                </form>
-                                              </li>
+            <div class="row justify-content-center mt-5">
+              <div class="p-0 w-25">
+                <!--Pending requests-->
+                <% if (postsConnected.length) {%>
+                <% let orgsConnected=orgs.filter(el=> { %>
+                <%return currUser.contactConfirm.indexOf(el._id)> -1 %>
+                <%})%>
+                <h5>You are connected with the following group(s):
+                </h5>
+                <ul class="list-group">
+              <% for (let friend of currUser.contactPending) {%>
+              <% let result=users.find(el=> el._id == friend) %>
+              <% let id=result._id %>
+              <% let name=`${result.givenName} ${result.surName}`%>
+                <li class="list-group-item">
+                  <h2>
+                    <%= name %> wants to add you as a connection
+                  </h2>
+                  <form class="col-1"
+                    action="/connections/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
+                    method="POST">
+                    <button class="btn btn-primary" type="submit">Accept</button>
+                  </form>
+                </li>
+                <%}%>
+                <% orgsConnected.forEach( el=> {%>
+                    <li class="list-group-item">
+                      <h4>
+                        <%= el.orgName%>
+                      </h4>
+                      <h5>
+                        <%= `${el.givenName} ${el.surName}`%>
+                      </h5>
+                      <h5>
+                        <%= `${el.email}`%>
+                      </h5>
+                    </li>
+                    <% }) %>
+                    <% for (let friend of currUser.contactPending) {%>
+                    <% let result=users.find(el=> el._id == friend) %>
+                    <% let id=result._id %>
+                    <% let name=`${result.givenName} ${result.surName}`%>
+                      <li>
+                        <h2>
+                          <%= name %> from <%= result.orgName%> wants to add you
+                              as a connection
+                        </h2>
+                        <form class="col-1"
+                          action="/connections/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
+                          method="POST">
+                          <button class="btn btn-primary"
+                            type="submit">Accept</button>
+                        </form>
+                      </li>
+                      <%}%>
+                    </ul>
 
-                                              <%}%>
-                                                <% orgsConnected.forEach( el=> {%>
-                                                  <li class="list-group-item">
-                                                    <h4>
-                                                      <%= el.orgName%>
-                                                    </h4>
-                                                    <h5>
-                                                      <%= `${el.givenName} ${el.surName}`%>
-                                                    </h5>
-                                                    <h5>
-                                                      <%= `${el.email}`%>
-                                                    </h5>
-                                                  </li>
-                                                  <% }) %>
+              <%} else {%>
+              <h5>You aren't connected to any ensembles.</h5>
+              <% if (currUser.contactPending.length){%>
+              <ul class="list-group">
+                <% for (let friend of currUser.contactPending) {%>
+                  <% let result=users.find(el=> el._id == friend) %>
+                  <% let id=result._id %>
+                  <% let name=`${result.givenName} ${result.surName}`%>
+                  <li class="list-group-item list-group-item-warning">
+                    <p>
+                      <strong>
+                        <%= `${name}` %>
+                      </strong> from <%= `${result.orgName}` %>
+                        wants to add you as a connection
+                    </p>
+                    <form class="col-1"
+                      action="/connections/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
+                      method="POST">
+                      <button class="btn btn-primary" type="submit">Accept</button>
+                    </form>
+                  </li>
+                <%}%>
+              </ul>
+        <%}%>
+      <% } %>
+            </div>
+            <div class="w-75 px-5">
+              <% if (postsVirginal.length) {%>
+                <h2>Available postings:</h2>
+                <!--unanswered postings-->
+                <ul class="list-group">
+                  <% for(var i=0; i<postsVirginal.length; i++) {%>
+                  <% let orgInfo=orgs.find( el=> {%>
+                  <% return `${el._id}`==`${postsVirginal[i].user}`})%>
+                  <li class="list-group-item px-5 d-flex flex-row ">
+                    <div class="w-50">
+                      <h2 class="display-6">
+                        <%= postsVirginal[i].title %>
+                      </h2>
+                      <h3>
+                        <%= orgInfo.orgName %>
+                      </h3>
+                      <h3>
+                        <%= `${orgInfo.city}, ${orgInfo.loc_state}` %>
+                      </h3>
+                    </div>
+                    <div class="w-50">
+                      <p>
+                        <%= postsVirginal[i].description %>
+                      </p>
 
-                                                    <% for (let friend of currUser.contactPending) {%>
-                                                      <% let result=users.find(el=> el._id == friend) %>
-                                                        <% let id=result._id %>
-                                                          <% let name=`${result.givenName} ${result.surName}`%>
-                                                            <li>
-                                                              <h2>
-                                                                <%= name %> from <%= result.orgName%> wants to add you
-                                                                    as a connection
-                                                              </h2>
-                                                              <form class="col-1"
-                                                                action="/connections/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
-                                                                method="POST">
-                                                                <button class="btn btn-primary"
-                                                                  type="submit">Accept</button>
-                                                              </form>
-                                                            </li>
+                      <% if (currUser.contactPending.indexOf(orgInfo._id)==-1){ %>
+                        <form class="col-1"
+                          action="/post/requestConnect/<%= postsVirginal[i].user %>/<%= currUser._id %>/?_method=PUT"
+                          method="POST">
+                          <button class="btn btn-primary"
+                            <%=orgInfo.contactPending.indexOf(currUser._id)==-1 ? '' : 'disabled' %>
+                            type="submit">
+                            <%= orgInfo.contactPending.indexOf(currUser._id)==-1 ? 'Connect'
+                              : 'Pending' %>
+                          </button>
+                        </form>
+                        <%} else { %>
+                          <form class="col-1"
+                            action="/connections/confirmConnect/<%= postsVirginal[i].user %>/<%= currUser._id %>/?_method=PUT"
+                            method="POST">
+                            <button class="btn btn-primary" type="submit">Accept</button>
+                          </form>
+                          <% }%>
+                      </div>
+                      </li>
+                      <% } %>
+              </ul>
+              <%} else {%>
+              <h2>No postings to display. Check back later!</h2>
+              <% } %>
+              </div>
+              </div>
 
-                                                            <%}%>
-                                    </ul>
-
-                                    <%} else {%>
-                                      <h5>You aren't connected to any ensembles.</h5>
-                                      <% if (currUser.contactPending.length){%>
-                                        <ul class="list-group">
-                                          <% for (let friend of currUser.contactPending) {%>
-                                            
-                                            <% let result=users.find(el=> el._id == friend) %>
-                                              <% let id=result._id %>
-                                                <% let name=`${result.givenName} ${result.surName}`%>
-                                                  <li class="list-group-item list-group-item-warning">
-                                                    <p>
-                                                      <strong>
-                                                        <%= `${name}` %>
-                                                      </strong> from <%= `${result.orgName}` %>
-                                                        wants to add you as a connection
-                                                    </p>
-                                                    <form class="col-1"
-                                                      action="/connections/confirmConnect/<%= id %>/<%= currUser._id %>/?_method=PUT"
-                                                      method="POST">
-                                                      <button class="btn btn-primary" type="submit">Accept</button>
-                                                    </form>
-                                                  </li>
-
-                                                  <%}%>
-                                        </ul>
-                                        <%}%>
-                                          <% } %>
-                          </div>
-                          <div class="w-75 px-5">
-                            <% if (postsVirginal.length) {%>
-                              <h2>Available postings:</h2>
-                              <!--unanswered postings-->
-                              <ul class="list-group">
-                                <% for(var i=0; i<postsVirginal.length; i++) {%>
-                                  <% let orgInfo=orgs.find( el=> {%>
-                                    <% return `${el._id}`==`${postsVirginal[i].user}`})%>
-                                      <li class="list-group-item px-5 d-flex flex-row ">
-                                        <div class="w-50">
-                                          <h2 class="display-6">
-                                            <%= postsVirginal[i].title %>
-                                          </h2>
-                                          <h3>
-                                            <%= orgInfo.orgName %>
-                                          </h3>
-                                          <h3>
-                                            <%= `${orgInfo.city}, ${orgInfo.loc_state}` %>
-                                          </h3>
-                                        </div>
-                                        <div class="w-50">
-                                          <p>
-                                            <%= postsVirginal[i].description %>
-                                          </p>
-
-                                          <% if (currUser.contactPending.indexOf(orgInfo._id)==-1){ %>
-                                            <form class="col-1"
-                                              action="/post/requestConnect/<%= postsVirginal[i].user %>/<%= currUser._id %>/?_method=PUT"
-                                              method="POST">
-                                              <button class="btn btn-primary"
-                                                <%=orgInfo.contactPending.indexOf(currUser._id)==-1 ? '' : 'disabled' %>
-                                                type="submit">
-                                                <%= orgInfo.contactPending.indexOf(currUser._id)==-1 ? 'Connect'
-                                                  : 'Pending' %>
-                                              </button>
-                                            </form>
-                                            <%} else { %>
-                                              <form class="col-1"
-                                                action="/connections/confirmConnect/<%= postsVirginal[i].user %>/<%= currUser._id %>/?_method=PUT"
-                                                method="POST">
-                                                <button class="btn btn-primary" type="submit">Accept</button>
-                                              </form>
-                                              <% }%>
-                                        </div>
-                                      </li>
-                                      <% } %>
-                              </ul>
-                              <%} else {%>
-                                <h2>No postings to display. Check back later!</h2>
-                                <% } %>
-
-                          </div>
-
-                        </div>
-
-                        <% } %>
+        <% } %>
 
       </div>
       <%- include('partials/footer') -%>

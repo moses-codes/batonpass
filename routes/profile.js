@@ -8,5 +8,6 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 router.put("/changeBio/:user", profileController.changeBio);
 router.put("/changeSummary/:user", profileController.changeSummary);
+router.put("/changeInfo/:user", profileController.changeInfo);
 
 module.exports = router;

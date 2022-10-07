@@ -3,7 +3,7 @@
   <% let musicians=users.filter( el=> el.isOrg === false) %>
     <% let orgs=users.filter( el=> el.isOrg === true) %>
 
-    <div class="userGreeting">
+    <div class="userGreeting container">
       <h1 class="mt-5">Hello, <%= `${currUser.givenName} ${currUser.surName}`%>
       </h1>
       <% if (currUser.isOrg) { %>
@@ -93,10 +93,12 @@
                 <div class="flex">
 
                   <%nonConnections.forEach( el=> {%>
-                  <div class="card m-5 w-96 bg-base-100 shadow-xl <%= currUser.contactPending.indexOf(el._id) ? `` : `list-group-item-warning` %>">
-                    <figure className="px-10 pt-10">
-                      <img src="https://placeimg.com/400/225/arch" alt="Shoes" className="rounded-xl" />
-                    </figure>
+                  <div class="card w-96 bg-base-100 shadow-xl <%= currUser.contactPending.indexOf(el._id) ? `` : `list-group-item-warning` %>">
+                    <div className="avatar">
+                      <div className="w-5 rounded-xl">
+                        <img src="https://placeimg.com/192/192/people" />
+                      </div>
+                    </div>
                     <div class="card-body">
                       <h3>
                         <%= `${el.givenName} ${el.surName}` %>
@@ -141,15 +143,11 @@
           <!--MUSICIAN'S VIEW-->
 
           <%}else{%>
-            <div class="userGreeting">
-              <h1 class="text-left mt-5 w-auto display-4">Hello, <%= `${currUser.givenName} ${currUser.surName}`%>
-              </h1>
-            </div>
             <% let postsConnected=posts.filter( el=> {%>
             <% return currUser.contactConfirm.indexOf(el.user)> -1%>
             <% })%>
 
-            <% let postsVirginal=posts.filter( el=> {%>
+            <% let postsUnconnected=posts.filter( el=> {%>
             <% return currUser.contactConfirm.indexOf(el.user)==-1%>
             <% })%>
 
@@ -234,20 +232,23 @@
                 <%}%>
               </ul>
         <%}%>
-      <% } %>
+        <% } %>
             </div>
             <div class="w-75 px-5">
-              <% if (postsVirginal.length) {%>
+              <% if (postsUnconnected.length) {%>
                 <h2>Available postings:</h2>
                 <!--unanswered postings-->
-                <ul class="list-group">
-                  <% for(var i=0; i<postsVirginal.length; i++) {%>
+                <section class="flex">
+                  <% for(var i=0; i<postsUnconnected.length; i++) {%>
                   <% let orgInfo=orgs.find( el=> {%>
-                  <% return `${el._id}`==`${postsVirginal[i].user}`})%>
-                  <li class="list-group-item px-5 d-flex flex-row ">
-                    <div class="w-50">
+                  <% return `${el._id}`==`${postsUnconnected[i].user}`})%>
+                  <div className="card w-96 bg-base-100 shadow-xl">
+                    <figure className="px-10 pt-10">
+                      <img src="https://placeimg.com/400/225/arch" alt="Shoes" className="rounded-xl" />
+                    </figure>
+                    <div className="card-body items-center text-center">
                       <h2 class="display-6">
-                        <%= postsVirginal[i].title %>
+                        <%= postsUnconnected[i].title %>
                       </h2>
                       <h3>
                         <%= orgInfo.orgName %>
@@ -255,34 +256,33 @@
                       <h3>
                         <%= `${orgInfo.city}, ${orgInfo.loc_state}` %>
                       </h3>
-                    </div>
-                    <div class="w-50">
                       <p>
-                        <%= postsVirginal[i].description %>
+                        <%= postsUnconnected[i].description %>
                       </p>
-
-                      <% if (currUser.contactPending.indexOf(orgInfo._id)==-1){ %>
-                        <form class="col-1"
-                          action="/post/requestConnect/<%= postsVirginal[i].user %>/<%= currUser._id %>/?_method=PUT"
-                          method="POST">
-                          <button class="btn btn-primary"
-                            <%=orgInfo.contactPending.indexOf(currUser._id)==-1 ? '' : 'disabled' %>
-                            type="submit">
-                            <%= orgInfo.contactPending.indexOf(currUser._id)==-1 ? 'Connect'
-                              : 'Pending' %>
-                          </button>
-                        </form>
-                        <%} else { %>
+                    </div>
+                      <div className="card-actions">
+                        <% if (currUser.contactPending.indexOf(orgInfo._id)==-1){ %>
                           <form class="col-1"
-                            action="/connections/confirmConnect/<%= postsVirginal[i].user %>/<%= currUser._id %>/?_method=PUT"
+                            action="/post/requestConnect/<%= postsUnconnected[i].user %>/<%= currUser._id %>/?_method=PUT"
                             method="POST">
-                            <button class="btn btn-primary" type="submit">Accept</button>
+                            <button class="btn btn-primary"
+                              <%=orgInfo.contactPending.indexOf(currUser._id)==-1 ? '' : 'disabled' %>
+                              type="submit">
+                              <%= orgInfo.contactPending.indexOf(currUser._id)==-1 ? 'Connect'
+                                : 'Pending' %>
+                            </button>
                           </form>
-                          <% }%>
+                          <%} else { %>
+                            <form class="col-1"
+                              action="/connections/confirmConnect/<%= postsUnconnected[i].user %>/<%= currUser._id %>/?_method=PUT"
+                              method="POST">
+                              <button class="btn btn-primary" type="submit">Accept</button>
+                            </form>
+                            <% }%>
                       </div>
-                      </li>
+                  </div>
                       <% } %>
-              </ul>
+                </section>
               <%} else {%>
               <h2>No postings to display. Check back later!</h2>
               <% } %>
