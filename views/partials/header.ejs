@@ -27,7 +27,7 @@
 </head>
 
 <body>
-  <header class="navbar justify-content-start">
+  <!-- <header class="navbar justify-content-start">
     <div class="text-center col-3">
       <a href="/feed"><img src="./imgs/cover.png" style="height: 50px;"></a>
     </div>
@@ -36,19 +36,42 @@
     </div>
     <div class="position-relative text-center col-1">
       <a href="/feed" class="text-decoration-none">Gigs
-        <%if (currUser.contactPending.length){ %>
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            <%= currUser.contactPending.length %>
-              <span class="visually-hidden">pending connections</span>
-              <% }%>
+      <%if (currUser.contactPending.length){ %>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        <%= currUser.contactPending.length %>
+        <span class="visually-hidden">pending connections</span>
+      <% }%>
       </a>
 
     </div>
-    <a href="/logout" class="col-3 btn btn-secondary">Logout</a> 
+    <a href="/logout" class="col-1 btn btn-secondary">Logout</a> 
     
-  </header>
+  </header> -->
 
   <hr class="m-0">
+
+  <div class="navbar bg-base-100 px-20">
+    <div class="flex-2">
+      <a href="/feed"><img src="./imgs/cover.png" style="height: 50px;"></a>
+    </div>
+    <div class="flex-none">
+      <ul class="menu menu-horizontal p-0">
+        <li><a href="/feed"><%= currUser.isOrg ? "Find musicians" : "Find gigs" %></a></li>
+        <li tabindex="0">
+          <a>
+            Profile
+            <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
+          </a>
+          <ul class="p-2 bg-base-100">
+            <li><a href="/profile" class="text-decoration-none">Edit Profile</a></li>
+            <li><a href="/logout" class="text-decoration-none">Logout</a> </li>
+          </ul>
+        </li>
+        <li><a>Connections</a></li>
+      </ul>
+    </div>
+  </div>
+
 </body>
 
 </html>

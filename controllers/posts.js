@@ -15,7 +15,7 @@ module.exports = {
     try {
       const posts = await Post.find().sort({ createdAt: "desc" });
       const users = await User.find().sort({ createdAt: "desc" });
-      res.render("feed.ejs", { posts: posts, users: users, currUser: req.user });
+      res.render("feed2.ejs", { posts: posts, users: users, currUser: req.user });
     } catch (err) {
       console.log(err);
     }

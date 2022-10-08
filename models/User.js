@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
   surName: { type: String, required: true },
   city: { type: String, required: true },
   loc_state: { type: String, required: true },
-  summary: { type: String, default: 'Summary goes here.' },
+  summary: { type: Array, default: ["No specialities "] },
   bio: { type: String, default: 'No bio given.' },
   email: { type: String, unique: true },
   isOrg: { type: Boolean, default: false },

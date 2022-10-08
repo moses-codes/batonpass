@@ -2,6 +2,8 @@ const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
 const { findOneAndUpdate } = require("../models/User");
 const User = require("../models/User");
+const flash = require("../node_modules/connect-flash");
+
 module.exports = {
     getProfile: async (req, res) => {
         try {
@@ -28,20 +30,33 @@ module.exports = {
     },
 
     changeSummary: async (req, res) => {
+        
         try {
+            let summaryArr = []
+            //throw error if input over 50char
+            for (let i = 0; i < 5; i++){
+                let formItem = req.body[`summary${i}`].trim()
+                if (formItem.length > 50){
+                    continue;
+                };
+                summaryArr.push(req.body[`summary${i}`].trim())
+            }
+            // arr = arr.filter(el => el !== '')
+            console.log(summaryArr)
             await User.findOneAndUpdate(
                 { _id: req.params.user },
                 {
-                    $set: { summary: req.body.summary },
+                    $set: { summary: summaryArr },
                 }
             );
-            console.log(req.body);
+            req.flash("error", { msg: "oopsy." })
             res.redirect(`/profile`);
         } catch (err) {
             console.log(err);
         }
     },
     changeInfo: async (req, res) => {
+        let isOrgStatus = req.body.isOrg === 'on' ? true : false
         try {
             await User.findOneAndUpdate(
                 { _id: req.params.user },
@@ -53,10 +68,11 @@ module.exports = {
                         city: req.body.city,
                         loc_state: req.body.loc_state,
                         email: req.body.email, 
+                        isOrg: isOrgStatus,
                     },
                 }
             );
-            console.log(req.body);
+            console.log(req.body, isOrgStatus);
             res.redirect(`/profile`);
         } catch (err) {
             console.log(err);
