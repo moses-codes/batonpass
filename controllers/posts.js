@@ -3,6 +3,7 @@ const Post = require("../models/Post");
 const { findOneAndUpdate } = require("../models/User");
 const User = require("../models/User");
 module.exports = {
+  
   getProfile: async (req, res) => {
     try {
       const posts = await Post.find({ user: req.user.id });
@@ -11,15 +12,17 @@ module.exports = {
       console.log(err);
     }
   },
+
   getFeed: async (req, res) => {
     try {
       const posts = await Post.find().sort({ createdAt: "desc" });
       const users = await User.find().sort({ createdAt: "desc" });
-      res.render("feed.ejs", { posts: posts, users: users, currUser: req.user });
+      res.render("feed2.ejs", { posts: posts, users: users, currUser: req.user });
     } catch (err) {
       console.log(err);
     }
   },
+
   getPost: async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
@@ -28,6 +31,7 @@ module.exports = {
       console.log(err);
     }
   },
+
   createPost: async (req, res) => {
     try {
       // Upload image to cloudinary
@@ -44,20 +48,7 @@ module.exports = {
       console.log(err);
     }
   },
-  // likePost: async (req, res) => {
-  //   try {
-  //     await Post.findOneAndUpdate(
-  //       { _id: req.params.id },
-  //       {
-  //         $inc: { likes: 1 },
-  //       }
-  //     );
-  //     console.log("Likes +1");
-  //     res.redirect(`/post/${req.params.id}`);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // },
+
   requestConnect: async (req, res) => {
     const targetUser = await User.findById(req.params.friend)
     try {

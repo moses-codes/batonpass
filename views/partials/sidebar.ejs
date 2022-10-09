@@ -1,0 +1,43 @@
+<% let userSummaryFormatted = currUser.summary.filter(el => el !== '').join(' | ') %>
+
+  <div class="card w-96 bg-base-100 flex">
+
+    <div class="w-3/4 mx-auto">
+      <div class="flex flex-col items-center py-10">
+        <img class="mb-3 w-24 h-24 rounded-full" src="https://placeimg.com/192/192/people"  alt="<%= currUser.givenName %>'s profile picture"/>
+        <h5 class="mb-1 text-xl font-medium text-gray-900 "><%= currUser.isOrg ? `${currUser.orgName}` : `${currUser.givenName} ${currUser.surName}` %></h5>
+        <p class="text-sm text-gray-500 pb-5 text-center"><%= userSummaryFormatted %></p>
+
+        <div class="card-actions justify-start">
+          <a href='/profile' class="btn btn-primary">Edit profile</a>
+        </div>
+      </div>
+    </div>
+
+  <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded ">
+     <ul class="space-y-2">
+
+        <li>
+          <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg  hover:bg-gray-100 ">
+             <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"></path><path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
+             <span class="flex-1 ml-3 whitespace-nowrap">Connections</span>
+             <span class="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-blue-600 bg-blue-200 rounded-full "><%= currUser.contactConfirm.length %></span>
+          </a>
+       </li>
+       <li>
+
+      <% if (currUser.contactPending.length) { %>
+        <li>
+          <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg  hover:bg-gray-100 ">
+             <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75  group-hover:text-gray-900 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"></path><path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
+             <span class="flex-1 ml-3 whitespace-nowrap">Pending</span>
+             <span class="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-blue-600 bg-red-200 rounded-full "><%= currUser.contactPending.length %></span>
+          </a>
+       </li>
+      <% } %>
+        
+     </ul>
+  </div>
+
+</div>
+

@@ -9,6 +9,8 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 // router.post("/createPost", upload.single("file"), postsController.createPost);
 
+router.get("/", connectionsController.getConnections);
+router.get("/:id", connectionsController.showConnection);
 router.put("/requestConnect/:friend/:user", connectionsController.requestConnect);
 router.put("/confirmConnect/:friend/:user", connectionsController.confirmConnect);
 
