@@ -22,6 +22,10 @@ const PostSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  interestedUsers: {
+    type: Array,
+    default: [],
+  }
 });
 
 module.exports = mongoose.model("Post", PostSchema);

@@ -1,0 +1,84 @@
+<!--MUSICIAN'S VIEW-->
+<% let orgs=users.filter( el=> el.isOrg === true) %>
+
+  <% let postsConnected=posts.filter( el=> currUser.contactConfirm.indexOf(el.user) > -1 ) %>
+  <% let postsUnconnected=posts.filter( el=> {%>
+  <% return currUser.contactConfirm.indexOf(el.user)==-1%>
+  <% })%>
+
+  <% let orgsUnconnected = orgs.filter( org => {%>
+  <% return currUser.contactConfirm.indexOf(org._id) == -1 %>
+  <% }) %> 
+
+
+  <section class="flex flex-wrap">
+  <% if (orgsUnconnected.length) {%>
+                
+    <!--unanswered postings-->
+    <% orgsUnconnected.forEach(org => {%>
+
+    <% const orgPosts = posts.filter( post => `${post.user}` == `${org._id}` ) %>
+    
+    <div class="card card-side bg-base-100 shadow-xl w-3/4 mx-auto mb-5">
+      <figure><img class='h-full' src="https://placeimg.com/200/280/arch" alt="Movie"/></figure>
+      <div>
+      <div class="card-body">
+        <h2 class="text-3xl">
+          <%= org.orgName %>
+        </h2>
+        <h3>
+          <%= %>
+        </h3>
+        <h3 class="text-gray-500">
+          <%= `${org.city}, ${org.loc_state}` %>
+        </h3>
+
+        <% if (orgPosts.length) { %>
+        <ul class="w-96">
+          <% orgPosts.forEach( post => { %>
+            <li>
+              <h3><%= post.title %></h3>
+              <h3><%= post.description %></h3>
+            </li> 
+          <% }) %>
+        <% } else {%>
+          <p><%= org.orgName %> does not currently have available opportunities, <br> but you may still connect with them. </p>
+        <% } %>
+        </ul>
+        
+      </div>
+        <div class="card-actions block pl-8">
+          <% if (currUser.contactPending.indexOf(org._id)==-1){ %>
+            <form class="col-1"
+              action="/post/requestConnect/<%= org._id %>/<%= currUser._id %>/?_method=PUT"
+              method="POST">
+              <button class="btn btn-outline btn-primary"
+                <%=org.contactPending.indexOf(currUser._id)==-1 ? '' : 'disabled' %>
+                type="submit">
+                <%= org.contactPending.indexOf(currUser._id)==-1 ? 'Connect' : 'Pending' %>
+              </button>
+            </form>
+        <%} else { %>
+          <form class="col-1"
+            action="/connections/confirmConnect/<%= org._id %>/<%= currUser._id %>/?_method=PUT"
+            method="POST">
+            <button class="btn btn-outline btn-primary" type="submit">Accept</button>
+          </form>
+          <% }%>
+          <div class="my-4">
+            <% org.summary.filter(el => el !== '').forEach( specialty => {%>
+            <div class="badge badge-accent badge-outline"><%= specialty %></div>
+            <% })%>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% })%>
+        
+    <%} else {%>
+    <h2>No postings to display. Check back later!</h2>
+    <% } %>     
+    </section>
+      
+
+

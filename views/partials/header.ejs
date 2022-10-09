@@ -19,44 +19,27 @@
   <link rel="stylesheet" href="../../dist/output.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gelasio&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  
   <link href="https://cdn.jsdelivr.net/npm/daisyui@2.31.0/dist/full.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
 <body>
-  <!-- <header class="navbar justify-content-start">
-    <div class="text-center col-3">
-      <a href="/feed"><img src="./imgs/cover.png" style="height: 50px;"></a>
-    </div>
-    <div class="text-center col-1">
-      <a href="/profile" class="text-decoration-none">Profile</a>
-    </div>
-    <div class="position-relative text-center col-1">
-      <a href="/feed" class="text-decoration-none">Gigs
-      <%if (currUser.contactPending.length){ %>
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-        <%= currUser.contactPending.length %>
-        <span class="visually-hidden">pending connections</span>
-      <% }%>
-      </a>
-
-    </div>
-    <a href="/logout" class="col-1 btn btn-secondary">Logout</a> 
-    
-  </header> -->
 
   <hr class="m-0">
 
-  <div class="navbar bg-base-100 px-20">
+  <div class="navbar bg-base-100 px-20 fixed top-0 z-10 border-b border-gray-300">
     <div class="flex-2">
       <a href="/feed"><img src="./imgs/cover.png" style="height: 50px;"></a>
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal p-0">
         <li><a href="/feed"><%= currUser.isOrg ? "Find musicians" : "Find gigs" %></a></li>
+        
+        <li><a href="/connections">Connections</a></li>
+
         <li tabindex="0">
           <a>
             Profile
@@ -64,13 +47,17 @@
           </a>
           <ul class="p-2 bg-base-100">
             <li><a href="/profile" class="text-decoration-none">Edit Profile</a></li>
+            <% if (currUser.isOrg) {%>
+              <li><a href="#" class="text-decoration-none">Add Post</a> </li>
+            <% } %>
             <li><a href="/logout" class="text-decoration-none">Logout</a> </li>
           </ul>
         </li>
-        <li><a>Connections</a></li>
       </ul>
     </div>
+    
   </div>
+
 
 </body>
 

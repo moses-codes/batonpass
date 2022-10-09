@@ -109,6 +109,26 @@ module.exports = {
             console.log(err);
         }
     },
+    
+  getConnections: async (req, res) => {
+    try {
+    //   const posts = await Post.find().sort({ createdAt: "desc" });
+      const users = await User.find().sort({ createdAt: "desc" });
+      res.render("connections/connectionsList.ejs", {  users: users, currUser: req.user });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  showConnection: async (req, res) => {
+    try {
+        const posts = await Post.find().sort({ createdAt: "desc" });
+      const connection = await User.findById(req.params.id)
+      res.render("connections/connectionPage.ejs", {  connection: connection, currUser: req.user, posts: posts });
+    } catch (err) {
+      console.log(err);
+    }
+  },
 
     // deletePost: async (req, res) => {
     //     try {

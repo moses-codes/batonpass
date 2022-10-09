@@ -1,0 +1,13 @@
+<h1>
+    This is the page of <%= connection %>
+</h1>
+
+<div class="card bg-base-100 mx-auto 
+lg:w-3/4 sm:w-96">
+  <div class="card-body">
+    <h2 class="card-title"><%= `${connection.givenName} ${connection.surName}` %></h2>
+    <h2> <%= `${connection.city}, ${connection.loc_state}` %> </h2>
+    <p><%= `${connection.summary}` %></p>
+    <p><%= `${connection.bio}` %></p>
+  </div>
+</div>

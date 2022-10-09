@@ -1,0 +1,6 @@
+<%- include('../partials/header') -%>
+<% if (currUser.isOrg) {%>
+    <%- include('./connectionsPartials/musicianInfo') -%>
+<% } else { %>
+    <%- include('./connectionsPartials/orgInfo') -%>
+<% } %>
