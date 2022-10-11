@@ -1,5 +1,5 @@
 <% let musicians=users.filter( el=> el.isOrg === false) %>
-<div class="row justify-content-center mt-5">
+<div class="sm:block sm:mx-auto lg:row lg:justify-content-center mt-5">
   <div class=" w-full">
 
     <!--Show musicians for hire.-->
@@ -9,21 +9,24 @@
         
       <h1> <%# nonConnections %> </h1>
 
-      <h1 class="text-5xl font-bold ml-10 mb-10">
+      <h1 class="text-5xl font-bold lg:ml-10 mb-10 sm:text-center">
         Musicians available for hire
       </h1>
 
   <div class="w-full px-5">
-    <div class="flex flex-wrap">
+    <div class="sm:block sm:mx-auto lg:flex lg:flex-wrap justify-around">
     <% if (nonConnections.length){%>
 
         <%nonConnections.forEach( el=> {%>
 
         <% let summaryFormatted = el.summary.filter(el => el !== '').join(' | ') %>
 
-          <div class="w-96 bg-white rounded-lg border border-gray-200 mr-5 my-2">
-            
-            <div class="flex flex-col items-center py-10">
+          <div class="sm:mx-auto sm:mb-3 w-96 rounded-lg border border-gray-200 lg:mr-3 lg:my-2 <%= currUser.contactPending.indexOf(el._id) ? 'bg-white' : 'bg-yellow-100' %>">
+            <% if (!currUser.contactPending.indexOf(el._id)){  %>
+              <div class="badge badge-outline badge-accent mt-2 ml-2">wants to add you!</div>
+            <%}%>
+            <div class="flex flex-col items-center <%= currUser.contactPending.indexOf(el._id) ? 'py-10' : 'py-2' %>">
+
                 <img class="mb-3 w-24 h-24 rounded-full" src="https://placeimg.com/192/192/people"  alt="<%= el.givenName %>'s profile picture"/>
                 <h5 class="mb-1 text-xl font-medium text-gray-900 "><%= `${el.givenName} ${el.surName}`%></h5>
                 <p class="text-sm text-gray-500 "><%= summaryFormatted %></p>

@@ -1,39 +1,50 @@
-<div class="card w-3/4 bg-base-100 flex">
-    <div class="avatar pl-5 pt-5 w-1/4">
-      <div class="w-24 rounded-full">
-        <img src="https://placeimg.com/192/192/people" />
+<% let summaryFormatted = connection.summary.filter(el => el !== '').join(' | ') %>
+    <% const orgPosts = posts.filter( post => `${post.user}` == `${connection._id}` ) %>
+  <div class="pt-28">
+
+    <div class="w-3/4 h-auto bg-base-100 rounded-md shadow-xl flex mx-auto">
+      <div class="h-auto p-5">
+         <div class=" h-auto rounded mb-5">
+           <img class='rounded-lg w-52' src="https://placeimg.com/192/192/people" />
+         </div>
+         
+       <% if (orgPosts.length) { %>
+        <form action="/post/updateInterest/<%= connection._id %>?_method=PUT" method="POST">
+        <ul class="w-96">
+          <% orgPosts.forEach( post => { %>
+            <li class="mb-5">
+              <div class="flex justify-between">
+                <h3 class="text-lg col-8"><%= post.title %></h3>
+                <h4 class="col-3 text-sm"><%= post.startDate.toLocaleDateString() %></h4>
+                
+            <input type='hidden' value='false' name="<%=post._id%>">
+            <input type="checkbox" value='true' id="email" name="<%=post._id%>" <%= post.interestedUsers.indexOf(currUser._id) > -1 ? 'checked' : ''%>>
+              </div>
+              <hr class="mb-2">
+              <h3 class="text-gray-500"><%= post.description %></h3>
+            </li> 
+          <% }) %>
+        </ul>
+        <button class='btn btn-outline btn-secondary' type="submit">Submit</button>
+        <p class="mt-3">Submitting this information will notify the ensemble of your interest in these opportunities.</p>
+        </form>
+        <% } else {%>
+          <p class="text-sm"><%= org.orgName %>does not currently have available opportunities, <br> but you may still connect with them. </p>
+        <% } %>
+      
+      </div>
+      <div class="m-10">
+        <h2 class="card-title text-5xl"><%= connection.orgName %></h2>
+        <p class="text-md text-gray-500 mb-2"><%= summaryFormatted %></p>
+        <p class="my-3 text-xl"><%= `${connection.city}, ${connection.loc_state}` %></p>
+        <p class="my-3 text-lg w-3/4"><%= connection.bio %></p>
+        <p class="text-md text-gray-500 mt-5 mb-2">Contact</p>
+        <hr class="w-1/4 mb-3">
+        <h2 class="card-title text-2xl"><%= `${connection.givenName} ${connection.surName}, director` %></h2>
+        <p class="text-xl">26985 Brighton Lane,</p>
+        <p class="text-xl"><%= `${connection.city}, ${connection.loc_state}` %> 91200</p>
+        <p class=" my-3"><a class="text-xl" href="mailto:<%= `${connection.email}` %>"><%= `${connection.email}` %></a></p>
+        <p>XXX-XXXX-XXX</p>
       </div>
     </div>
-    <div class="w-3/4">
-        <h1>
-            This is the page of <%= connection %>
-        </h1>
-    </div>
-  <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
-     <ul class="space-y-2">
-        <li>
-           <a href="#" class=" items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-              
-              <h2>Music Director Needed</h2>
-              <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, </p>
-           </a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-             <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"></path><path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
-             <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, </p>
-             <span class="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-blue-600 bg-blue-200 rounded-full dark:bg-blue-900 dark:text-blue-200">6</span>
-          </a>
-       </li>
-       <li>
-        <li>
-          <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-             <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"></path><path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
-             <span class="flex-1 ml-3 whitespace-nowrap">Connections</span>
-             <span class="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-blue-600 bg-blue-200 rounded-full dark:bg-blue-900 dark:text-blue-200">6</span>
-          </a>
-       </li>
-        
-     </ul>
   </div>
-</div>

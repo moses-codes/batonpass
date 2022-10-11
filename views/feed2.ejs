@@ -13,16 +13,16 @@
     <% return currUser.contactConfirm.indexOf(el._id)==-1 %>
     <% }) %>
 
-  <div class="flex justify-start relative">
+  <div class="lg:flex sm:block justify-start relative">
   <!--Connections Bar-->
-  <div class="w-96 ml-20">
-  <aside class="w-96 ml-20 fixed top-20 left-0 right-0" aria-label="Sidebar">
+  <div class="w-96 lg:ml-20 sm:mx-auto sm:mt-32">
+  <aside class="w-96 lg:ml-20 sm:block lg:fixed lg:top-20 lg:left-0 lg:right-0" >
     <%- include('partials/sidebar') -%>
   </aside>
   </div>
 
   <!--Display musicians OR organizations-->
-  <main class="ml-10 mt-24">
+  <main class="mt-24 lg:ml-10 lg:w-8/12 sm:w-full sm:mx-auto">
     <% if (currUser.isOrg) { %>
       <%- include('partials/feedOfMusicians') -%>
     <% } else{ %>
