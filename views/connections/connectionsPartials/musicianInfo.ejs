@@ -1,7 +1,5 @@
 <% let connectedPosts = posts.filter( el => el.interestedUsers.indexOf(connection._id) > -1).filter(post => `${post.user}` == `${currUser._id}`)  %>
 
-
-
 <% let summaryFormatted = connection.summary.filter(el => el !== '').join(' | ') %>
 <div class="w-3/4 pt-20">
 </div>
@@ -18,7 +16,7 @@
       <li class="mb-5">
         <div class="flex justify-between">
           <h3 class="text-lg col-8"><%= post.title %></h3>
-          <h4 class="col-3 text-sm"><%= toLocaleDateString() %></h4>
+          <h4 class="col-3 text-sm"><%= post.startDate.toLocaleDateString() %></h4>
         </div>
       <hr class="mb-2">
       <h3 class="text-gray-500"><%= post.description %></h3>

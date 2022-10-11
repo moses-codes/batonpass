@@ -1,8 +1,12 @@
 <%- include('../partials/header') -%>
+
 <main class="bg-stone-200 h-screen ">
 <% if (currUser.isOrg) {%>
     <%- include('./connectionsPartials/musicianInfo') -%>
 <% } else { %>
     <%- include('./connectionsPartials/orgInfo') -%>
 <% } %>
+
 </main>
+
+<%- include('../partials/footer') -%>
