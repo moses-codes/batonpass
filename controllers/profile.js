@@ -79,4 +79,25 @@ module.exports = {
         }
     },
 
+    uploadProfilePic: async (req, res) => {
+        
+    //TODO:  FIGURE OUT UPLOAD
+    
+        try {
+            // await User.findOneAndUpdate(
+            //     { _id: req.params.user },
+            //     {
+            //         $set: {
+            //             image: req.body.image,
+            //             cloudinaryId: result.public_id,
+            //         },
+            //     }
+            // );
+            console.log(req.body, isOrgStatus);
+            res.redirect(`/profile`);
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
 };

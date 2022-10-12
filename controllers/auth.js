@@ -1,6 +1,7 @@
 const passport = require("passport");
 const validator = require("validator");
 const User = require("../models/User");
+const cloudinary = require("../middleware/cloudinary");
 // const Org = require('../models/Org')
 
 exports.getLogin = (req, res) => {
@@ -96,7 +97,6 @@ exports.postSignup = (req, res, next) => {
   });
 
   if (req.body.isOrg === "true") req.body.isOrg = true;
-
   const user = new User({
     givenName: req.body.givenName,
     surName: req.body.surName,

@@ -4,7 +4,7 @@
 
     <div class="w-3/4 mx-auto">
       <div class="flex flex-col items-center py-10">
-        <img class="mb-3 w-24 h-24 rounded-full" src="https://placeimg.com/192/192/people"  alt="<%= currUser.givenName %>'s profile picture"/>
+        <img class="mb-3 w-24 h-24 rounded-full" src="<%= currUser.image %>"  alt="<%= currUser.givenName %>'s profile picture"/>
         <h5 class="mb-1 text-xl font-medium text-gray-900 "><%= currUser.isOrg ? `${currUser.orgName}` : `${currUser.givenName} ${currUser.surName}` %></h5>
         <p class="text-sm text-gray-500 pb-5 text-center"><%= userSummaryFormatted %></p>
 
