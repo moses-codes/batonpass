@@ -1,0 +1,5 @@
+<div>
+    <h1>This is the page of <%= targetUser.givenName %></h1>
+    <h2>This is their info: <%= targetUser %></h2>
+    <p>You are <%= if (currUser.contactConfirm.indexOf(targetUser._id) == -1) "not"; %> connected with this person. </p>
+</div>

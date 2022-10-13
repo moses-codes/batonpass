@@ -7,45 +7,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BatonPass</title>
   <link rel="icon" type="image/png" sizes="32x32" href="/imgs/favicon-32x32.png" />
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous" />
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
-    crossorigin="anonymous" /> 
+    crossorigin="anonymous" />
 
-    <link href="./css/style.css" rel="stylesheet"> 
-  <link rel="stylesheet" href="../../dist/output.css" >
+  
+  
+  <link href="./css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../dist/output.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gelasio&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.31.0/dist/full.css" rel="stylesheet" type="text/css" />
+  
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
-  <header class="navbar justify-content-start">
-    <div class="text-center col-3">
-      <a href="/feed"><img src="./imgs/cover.png" style="height: 50px;"></a>
-    </div>
-    <div class="text-center col-1">
-      <a href="/profile" class="text-decoration-none">Profile</a>
-    </div>
-    <div class="position-relative text-center col-1">
-      <a href="/feed" class="text-decoration-none">Gigs 
-        <%if (currUser.contactPending.length){ %>
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-          <%= currUser.contactPending.length %>
-        <span class="visually-hidden">pending connections</span>
-        <% }%>
-      </a>
-      
-    </div>
-    <% if (currUser.isOrg) { %>
-      <div class="text-center col-1">
-        <a href="/profile" class="text-decoration-none">Posts</a>
-      </div>
-    <% } %>
-  </header>
 
   <hr class="m-0">
+
+  <div class="navbar bg-base-100 px-20 fixed top-0 z-10 border-b border-gray-300">
+    <div class="flex-2">
+      <a href="/feed"><img src="./imgs/cover.png" style="height: 50px;"></a>
+    </div>
+    <div class="flex-none">
+      <ul class="menu menu-horizontal p-0">
+        <li><a href="/feed"><%= currUser.isOrg ? "Find musicians" : "Find gigs" %></a></li>
+        
+        <li><a href="/connections">Connections</a></li>
+
+        <li tabindex="0">
+          <a>
+            Profile
+            <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
+          </a>
+          <ul class="p-2 bg-base-100">
+            <li><a href="/profile" class="text-decoration-none">Edit Profile</a></li>
+            <% if (currUser.isOrg) {%>
+              <li><a href="#" class="text-decoration-none">Add Post</a> </li>
+            <% } %>
+            <li><a href="/logout" class="text-decoration-none">Logout</a> </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    
+  </div>
+
+<div class="min-h-screen max-h-full">
 </body>
 
 </html>

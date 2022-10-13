@@ -1,8 +1,10 @@
+const { ConnectionStates } = require("mongoose");
 const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
 const { findOneAndUpdate } = require("../models/User");
 const User = require("../models/User");
 module.exports = {
+  
   getProfile: async (req, res) => {
     try {
       const posts = await Post.find({ user: req.user.id });
@@ -11,15 +13,17 @@ module.exports = {
       console.log(err);
     }
   },
+
   getFeed: async (req, res) => {
     try {
       const posts = await Post.find().sort({ createdAt: "desc" });
       const users = await User.find().sort({ createdAt: "desc" });
-      res.render("feed.ejs", { posts: posts, users: users, currUser: req.user });
+      res.render("feed2.ejs", { posts: posts, users: users, currUser: req.user });
     } catch (err) {
       console.log(err);
     }
   },
+
   getPost: async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
@@ -28,6 +32,7 @@ module.exports = {
       console.log(err);
     }
   },
+
   createPost: async (req, res) => {
     try {
       // Upload image to cloudinary
@@ -44,69 +49,103 @@ module.exports = {
       console.log(err);
     }
   },
-  // likePost: async (req, res) => {
+
+  // requestConnect: async (req, res) => {
+  //   const targetUser = await User.findById(req.params.friend)
   //   try {
-  //     await Post.findOneAndUpdate(
-  //       { _id: req.params.id },
-  //       {
-  //         $inc: { likes: 1 },
-  //       }
-  //     );
-  //     console.log("Likes +1");
-  //     res.redirect(`/post/${req.params.id}`);
+  //     if (
+  //       targetUser.contactPending.indexOf(req.params.user) > -1 || targetUser.contactConfirm.indexOf(req.params.user) > -1
+  //     ) {
+  //       console.log('friend request already sent!')
+  //     } else {
+  //       await targetUser.updateOne(
+  //         {
+  //           $push: { contactPending: [req.params.user] }
+  //         }
+  //       )
+  //       console.log(req.params.user, req.params.friend, targetUser);
+  //     }
+  //     res.redirect(`/feed`);
   //   } catch (err) {
   //     console.log(err);
   //   }
   // },
-  requestConnect: async (req, res) => {
-    const targetUser = await User.findById(req.params.friend)
-    try {
-      if (
-        targetUser.contactPending.indexOf(req.params.user) > -1 || targetUser.contactConfirm.indexOf(req.params.user) > -1
-      ) {
-        console.log('friend request already sent!')
-      } else {
-        await targetUser.updateOne(
-          {
-            $push: { contactPending: [req.params.user] }
-          }
-        )
-        console.log(req.params.user, req.params.friend, targetUser);
+
+  // confirmConnect: async (req, res) => {
+  //   try {
+  //     const targetUserID = req.params.friend
+  //     const targetUser = await User.find({ _id: targetUserID })
+  //     const currUser = await User.find({ _id: req.params.user })
+  //     await User.findOneAndUpdate(
+  //       {
+  //         _id: targetUserID,
+  //       },
+  //       {
+  //         $push: { contactConfirm: req.params.user },
+  //       },
+  //     )
+
+  //     await User.findOneAndUpdate(
+  //       {
+  //         _id: req.params.user,
+  //       },
+  //       {
+  //         $pull: { contactPending: targetUserID },
+  //         $push: { contactConfirm: [targetUserID] },
+  //       },
+  //     )
+  //     console.log("targetUserID taken from pending & pushed to confirm!")
+  //     res.redirect(`/feed`);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // },
+
+  updateInterest: async (req, res) => {
+    const postIds = []
+      for (let key in req.body){
+        postIds.push(key)
+        if ( req.body[key].length == 2 ) req.body[key] = 'true'
       }
-      res.redirect(`/feed`);
-    } catch (err) {
-      console.log(err);
-    }
-  },
 
-  confirmConnect: async (req, res) => {
-    try {
-      const targetUserID = req.params.friend
-      const targetUser = await User.find({ _id: targetUserID })
-      const currUser = await User.find({ _id: req.params.user })
-      await User.findOneAndUpdate(
-        {
-          _id: targetUserID,
-        },
-        {
-          $push: { contactConfirm: req.params.user },
-        },
-      )
+    const currUserId = req.user.id
+    //for each of the targetPosts, try to update the interestedUsers array.
+      try {
 
-      await User.findOneAndUpdate(
-        {
-          _id: req.params.user,
-        },
-        {
-          $pull: { contactPending: targetUserID },
-          $push: { contactConfirm: [targetUserID] },
-        },
-      )
-      console.log("targetUserID taken from pending & pushed to confirm!")
-      res.redirect(`/feed`);
-    } catch (err) {
-      console.log(err);
-    }
+        console.log(currUserId, req.body)
+        for (let post in req.body) {
+        if(req.body[post] == "true"){
+          const targetPosts = await Post.updateOne({
+            $and: 
+            [ 
+              {_id: postIds}, 
+              {interestedUsers: { $nin: [currUserId]}}
+            ]
+            },
+            {
+              $push: {interestedUsers: currUserId}
+            }
+          )
+        }else{
+          const targetPosts = await Post.updateOne({
+            $and: 
+            [ 
+              {_id: postIds}, 
+              {interestedUsers: { $in: [currUserId]}}
+            ]
+            },
+            {
+              $pull: {interestedUsers: currUserId}
+            }
+          )
+        }
+      }
+
+        res.redirect('back')
+
+      } catch (err) {
+        console.log(err);
+      }
   },
 
   deletePost: async (req, res) => {

@@ -1,88 +1,174 @@
 <%- include('partials/header') -%>
   <div class="container">
-    <div class="row mt-5">
+    <div class="lg:row mt-20">
 
-      <h1 class="display-5 mt-3">Your profile</h1>
-      <div class="w-50">
+      <h1 class="display-5 my-5">Your profile</h1>
+
+      <section class="lg:flex lg:justify-around lg:flex-wrap sm:block">
+
+        <div class="lg:w-5/12 sm:w-full">
           <form action="/profile/changeSummary/<%= currUser._id%>/?_method=PUT" method="POST">
-            <div class="mb-3">
-              <label for="summary" class="form-label" "><h4>Change Summary (under 240 characters)</h4></label>
-              <textarea class="form-control" id="summary" name="summary"
-                placeholder="Keep this under 240 characters." style="height:100px; "><%= currUser.summary%></textarea>
+            <h3 class="mb-2">List up to 5 specialties.</h3>
+            <div class="mb-3 flex">
+              <label for="summary" class="form-label">1.</label>
+                <input type="text" class="form-control" id="summary0" name="summary0" placeholder='Conducting, Saxophone, Composing, e.g.' value="<%= currUser.summary[0] %>"
+                >
             </div>
-            <button type="submit" class="btn btn-secondary col-3">Change</button>
+            <div class="mb-3 flex">
+              <label for="summary1" class="form-label">2.</label>
+                <input type="text" class="form-control" id="summary1" name="summary1" value="<%= currUser.summary[1] %>"
+                >
+            </div>
+            <div class="mb-3 flex">
+              <label for="summary2" class="form-label">3.</label>
+                <input type="text" class="form-control" id="summary2" name="summary2" value="<%= currUser.summary[2] %>"
+                >
+            </div>
+            <div class="mb-3 flex">
+              <label for="summary3" class="form-label">4.</label>
+                <input type="text" class="form-control" id="summary3" name="summary3" value="<%= currUser.summary[3] %>"
+                >
+            </div>
+            <div class="mb-3 flex">
+              <label for="summary4" class="form-label">5.</label>
+                <input type="text" class="form-control" id="summary4" name="summary4" value="<%= currUser.summary[4] %>"
+                >
+            </div>
+              <button type="submit" class="btn btn-outline btn-secondary col-4 mr-5">Update Summary</button>
+
           </form>
-  
+
           <form action="/profile/changeBio/<%= currUser._id%>/?_method=PUT" method="POST">
-            <div class="mb-3 mt-3">
-              <label for="bio" class="form-label"><h4>Change bio</h4></label>
+            <div class="mb-10 mt-3">
+              <label for="bio" class="form-label">
+                <h4>Change bio</h4>
+              </label>
               <textarea class="form-control" id="bio" name="bio" style="height:250px"><%= currUser.bio%></textarea>
             </div>
-            <button type="submit" class="btn btn-secondary col-3">Change</button>
+            <button type="submit" class="btn btn-outline btn-secondary col-3">Update Bio</button>
           </form>
-  
         </div>
-      <div class="w-50 mt-4">
-        <div>
-          <% if (currUser.isOrg) {%>
-            <p><strong>Organization Name</strong>: <%= currUser.orgName %>
-            </p>
-            <p><strong>Contact name</strong>: <%= `${currUser.givenName} ${currUser.surName}`%></p>
-          <% }else{ %>
-          <p><strong>Display Name</strong>: <%= `${currUser.givenName} ${currUser.surName}` %>
-          </p>
-          <%}%>
-          <p><strong>Location</strong>: <%= `${currUser.city}, ${currUser.loc_state}` %>
-          </p>
-          <p><strong>Email</strong>: <%= currUser.email %>
-          </p>
-          <p><strong>Summary</strong>: <%= currUser.summary %>
-          </p>
-          <p><strong>Bio</strong>: <%= currUser.bio %>
-          </p>
-          
-          <a href="/logout" class="col-3 btn btn-secondary">Logout</a> <a class="col-3 btn btn-primary" href="/feed">Return to Feed</a>
-        </div>
-      </div>
 
-       
-    
-  </div>
-  </div>
+        <div class="lg:w-5/12 sm:w-full mt-4">
 
-  <% if (currUser.isOrg) { %>
-  <section class="d-flex mt-5 container">
-    <div class="w-50 me-3">
-        <h1 class="display-5">Add a post</h1>
-          <form action="/post/createPost" enctype="multipart/form-data" method="POST">
+          <form action="/profile/uploadProfilePic/<%= currUser._id%>/?_method=PUT" enctype='multipart/form-data' method="POST">
+            <img class="mb-3 w-24 h-24 rounded-full" src="<%= currUser.image %>"  alt="<%= currUser.givenName %>'s profile picture"/>
             <div class="mb-3">
-              <label for="title" class="form-label">Title</label>
-              <input type="text" class="form-control" id="title" name="title" placeholder="What kind of musician are you looking for?">
+              <label for="imgUpload" class="form-label">Profile Picture</label>
+              <input type="file" class="form-control" id="imageUpload" name="file">
             </div>
-            <div class="mb-3">
-              <label for="description" class="form-label">Description</label>
-              <textarea class="form-control" id="description" name="description" placeholder="Briefly describe the nature of the role."></textarea>
-              <button type="submit" class="btn btn-primary">Post</button>
-              </div>
+            <button type="submit" class="btn btn-outline btn-primary">Update Profile Picture</button>
           </form>
-    </div>
-    <div class="w-50 me-3">
-      <ul class="list-group">
-      <% for(var i=0; i<posts.length; i++) {%>
+
+          <div class="mt-10">
+            <h3 class="mb-3">Contact info</h3>
+            <form action="/profile/changeInfo/<%= currUser._id%>/?_method=PUT" method="POST">
+            <% if (currUser.isOrg) {%>
+              <div class="mb-3 flex text-sm">
+                <label for="orgName" class="form-label col-2 text-right pr-3">Organization Name:</label>
+                  <input type="text" class="form-control" id="orgName" name="orgName" value="<%= currUser.orgName %>"
+                  >
+              </div>
+              <div class="mb-3 flex text-sm">
+                <label for="givenName" class="form-label col-2 text-right pr-3">First Name:</label>
+                  <input type="text" class="form-control" id="givenName" name="givenName" value="<%= currUser.givenName %>"
+                  >
+              </div>
+              <div class="mb-3 flex text-sm">
+                <label for="surName" class="form-label col-2 text-right pr-3">Family Name:</label>
+                  <input type="text" class="form-control" id="surName" name="surName" value="<%= currUser.surName %>"
+                  >
+              </div>
+              <% }else{ %>
+                <div class="mb-3 flex text-sm">
+                  <label for="givenName" class="form-label col-2 text-right pr-3">First Name:</label>
+                    <input type="text" class="form-control" id="givenName" name="givenName" value="<%= currUser.givenName %>"
+                    >
+                </div>
+                <div class="mb-3 flex text-sm">
+                  <label for="surName" class="form-label col-2 text-right pr-3">Family Name:</label>
+                    <input type="text" class="form-control" id="surName" name="surName" value="<%= currUser.surName %>"
+                    >
+                </div>
+                <%}%>
+                <div class="mb-3 flex text-sm">
+                  <label for="city" class="form-label col-2 text-right pr-3">City:</label>
+                    <input type="text" class="form-control" id="city" name="city" value="<%= currUser.city %>"
+                    >
+                </div>
+                <div class="mb-3 flex text-sm">
+                  <label for="loc_state" class="form-label col-2 text-right pr-3">State:</label>
+                    <input type="text" class="form-control" id="loc_state" name="loc_state" value="<%= currUser.loc_state %>"
+                    >
+                </div>
+                <div class="mb-3 flex text-sm">
+                  <label for="email" class="form-label col-2 text-right pr-3">Email:</label>
+                    <input type="text" class="form-control" id="email" name="email" value="<%= currUser.email %>"
+                    >
+                </div>
+                <div class="mb-3 flex text-xs">
+                  <label for="isOrg" class="form-label col-2 text-right pr-3">Organization?</label>
+                  <input type="checkbox" id="isOrg" name="isOrg" <%= currUser.isOrg ? "checked" : '' %> >
+                </div>
+                <button type="submit" class="btn btn-outline btn-primary">Update User Info</button>
+            </form>
+
+          </div>
+        </div>
+      
+    </section>
+  </div>
+</div>
+  <% if (currUser.isOrg) { %>
+    <section class="d-flex mt-5 container">
+      <div class="w-50 me-3">
+        <h1 class="display-5">Add a post</h1>
+        <form action="/post/createPost" enctype="multipart/form-data" method="POST">
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title"
+              placeholder="What kind of musician are you looking for?">
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description"
+              placeholder="Briefly describe the nature of the role."></textarea>
+            
+          </div>
+          <div class="mb-3 col-3 flex items-end">
+            <div>
+              <label for="startDate" class="form-label">Start Date</label>
+              <input type="date" class="form-control" id="startDate" name="startDate">
+            </div>
+            <button type="submit" class="btn btn-outline btn-primary">Post</button>
+          </div>
+        </form>
+      </div>
+      <div class="w-50 me-3">
 
         <h1>Active postings</h1>
-        <li class="list-group-item justify-content-between mt-5">
-         
-          <h3><%= posts[i].title%></h3>
-          <p><%= posts[i].description%></p>
-         <form action="/post/deletePost/<%= posts[i].id %>?_method=DELETE" method="POST">
-          <button class="btn btn-primary fa fa-trash" type="submit"></button>
-        </form>
-        </li>
-      <% } %>
-      </ul>
-    </div> 
-</section>
+        <ul class="list-group">
+          <% for(var i=0; i<posts.length; i++) {%>
 
-<% } %>
-  <%- include('partials/footer') -%>
+            <li class="list-group-item justify-content-between">
+
+              <h3>
+                <%= posts[i].title%>
+              </h3>
+              <p>
+                <%= posts[i].description%>
+              </p>
+              <p>
+                <%= posts[i].startDate.toDateString() %>
+              </p>
+              <form action="/post/deletePost/<%= posts[i].id %>?_method=DELETE" method="POST">
+                <button class="btn btn-outline btn-primary fa fa-trash" type="submit"></button>
+              </form>
+            </li>
+            <% } %>
+        </ul>
+      </div>
+    </section>
+
+    <% } %>
+      <%- include('partials/footer') -%>

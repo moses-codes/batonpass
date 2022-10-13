@@ -5,9 +5,9 @@ header {
     width: 100%;
 }
 /**/
-
-h1{
-    font-family: 'Gelasio', serif;
+body{
+    background-color: #F3F2EF;
+    font-family: 'Poppins', serif;
 }
 
 /*Background imgs*/
