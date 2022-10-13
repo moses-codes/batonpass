@@ -50,7 +50,18 @@
         </div>
 
         <div class="lg:w-5/12 sm:w-full mt-4">
-          <div>
+
+          <form action="/profile/uploadProfilePic/<%= currUser._id%>/?_method=PUT" enctype='multipart/form-data' method="POST">
+            <img class="mb-3 w-24 h-24 rounded-full" src="<%= currUser.image %>"  alt="<%= currUser.givenName %>'s profile picture"/>
+            <div class="mb-3">
+              <label for="imgUpload" class="form-label">Profile Picture</label>
+              <input type="file" class="form-control" id="imageUpload" name="file">
+            </div>
+            <button type="submit" class="btn btn-outline btn-primary">Update Profile Picture</button>
+          </form>
+
+          <div class="mt-10">
+            <h3 class="mb-3">Contact info</h3>
             <form action="/profile/changeInfo/<%= currUser._id%>/?_method=PUT" method="POST">
             <% if (currUser.isOrg) {%>
               <div class="mb-3 flex text-sm">

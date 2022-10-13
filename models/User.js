@@ -13,6 +13,14 @@ const UserSchema = new mongoose.Schema({
   orgName: { type: String, required: false },
   contactPending: { type: Array, default: [] },
   contactConfirm: { type: Array, default: [] },
+  cloudinaryId: {
+    type: String,
+    required: false,
+  },
+  image: {
+    type: String,
+    default: 'https://i.ibb.co/XWfQt5L/stacyinmanpic.jpg'
+  },
   password: String,
 });
 
