@@ -58,7 +58,7 @@ module.exports = {
     changeInfo: async (req, res) => {
         let isOrgStatus = req.body.isOrg === 'on' ? true : false
         try {
-            await User.findOneAndUpdate(
+            const user = await User.findOneAndUpdate(
                 { _id: req.params.user },
                 {
                     $set: {
@@ -72,7 +72,7 @@ module.exports = {
                     },
                 }
             );
-            console.log(req.body, isOrgStatus);
+            console.log(req.body, user);
             res.redirect(`/profile`);
         } catch (err) {
             console.log(err);
@@ -84,16 +84,19 @@ module.exports = {
     //TODO:  FIGURE OUT UPLOAD
     
         try {
-            // await User.findOneAndUpdate(
-            //     { _id: req.params.user },
-            //     {
-            //         $set: {
-            //             image: req.body.image,
-            //             cloudinaryId: result.public_id,
-            //         },
-            //     }
-            // );
-            console.log(req.body, isOrgStatus);
+            // Upload image to cloudinary
+            const result = await cloudinary.uploader.upload(req.file.path);
+
+            await User.findOneAndUpdate(
+                { _id: req.params.user },
+                {
+                    $set: {
+                        image: result.secure_url,
+                        cloudinaryId: result.public_id,
+                    },
+                }
+            );
+            console.log(req.body);
             res.redirect(`/profile`);
         } catch (err) {
             console.log(err);
