@@ -1,9 +1,6 @@
 # BatonPass - assemble your ensemble.
 
-BatonPass is a social network for ensembles and musicians to better find each other.
----
-# Check it out!
-
+BatonPass is a musical social network for ensembles and musicians to better find each other. Check it out!
 https://batonpass.up.railway.app/
 
 # Tech used
