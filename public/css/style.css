@@ -64,8 +64,8 @@ body{
 }
 
 .signup {
-    height: 120vh;
-    background-size: cover;
+    height: auto;
+    background-size: contain;
     color: white;
 }
 
@@ -80,7 +80,7 @@ body{
     bottom: 0px;
     left: 0px;
     opacity: .7;
-    height: 120vh;
+    height: 150vh;
 }
 
 .signup-content{

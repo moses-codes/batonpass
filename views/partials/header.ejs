@@ -31,11 +31,11 @@
 
   <hr class="m-0">
 
-  <div class="navbar bg-base-100 px-20 fixed top-0 z-10 border-b border-gray-300">
-    <div class="flex-2">
-      <a href="/feed"><img src="./imgs/cover.png" style="height: 50px;"></a>
+  <div class="navbar bg-base-100 px-20 fixed top-0 z-10 border-b border-gray-300 ">
+    <div class="lg:flex-2 mx-auto max-w-sm">
+      <a href="/feed"><img src="./imgs/cover.png" class="h-12" ></a>
     </div>
-    <div class="flex-none">
+    <div class="lg:flex-none mx-auto">
       <ul class="menu menu-horizontal p-0">
         <li><a href="/feed"><%= currUser.isOrg ? "Find musicians" : "Find gigs" %></a></li>
         
@@ -59,7 +59,7 @@
     
   </div>
 
-<div class="min-h-screen max-h-full">
+<div class="min-h-screen max-h-full w-screen">
 </body>
 
 </html>
