@@ -9,7 +9,7 @@
         
       <h1> <%# nonConnections %> </h1>
 
-      <h1 class="text-3xl font-bold lg:text-left ml-5 mb-10 sm:text-center">
+      <h1 class="text-3xl font-bold xl:text-left ml-5 mb-10 sm:text-center">
         Musicians available for hire
       </h1>
 
@@ -27,7 +27,7 @@
             <%}%>
             <div class="flex flex-col items-center <%= currUser.contactPending.indexOf(el._id) ? 'py-10' : 'py-2' %>">
 
-                <img class="mb-3 w-24 h-24 rounded-full" src="https://placeimg.com/192/192/people"  alt="<%= el.givenName %>'s profile picture"/>
+                <img class="mb-3 w-24 h-24 rounded-full" src="<%= el.image %>"  alt="<%= el.givenName %>'s profile picture"/>
                 <h5 class="mb-1 text-xl font-medium text-gray-900 "><%= `${el.givenName} ${el.surName}`%></h5>
                 <p class="text-sm text-gray-500 "><%= summaryFormatted %></p>
 
