@@ -1,13 +1,13 @@
 <%- include('../partials/header') -%>
 
-<main class="bg-stone-200 xl:h-screen h-auto ">
-    
-<% if (currUser.isOrg) {%>
-    <%- include('./connectionsPartials/musicianInfo') -%>
-<% } else { %>
-    <%- include('./connectionsPartials/orgInfo') -%>
-<% } %>
+    <main class="bg-stone-200 h-screen h-auto pb-24">
 
-</main>
+        <% if (currUser.isOrg) {%>
+            <%- include('./connectionsPartials/musicianInfo') -%>
+                <% } else { %>
+                    <%- include('./connectionsPartials/orgInfo') -%>
+                        <% } %>
 
-<%- include('../partials/footer') -%>
+    </main>
+
+    <%- include('../partials/footer') -%>
