@@ -31,11 +31,11 @@
 
   <hr class="m-0">
 
-  <div class="navbar bg-base-100 px-20 fixed top-0 z-10 border-b border-gray-300">
-    <div class="flex-2">
-      <a href="/feed"><img src="./imgs/cover.png" style="height: 50px;"></a>
+  <div class="navbar bg-base-100 px-20 fixed top-0 z-10 border-b border-gray-300 ">
+    <div class="lg:flex-2 mx-auto max-w-sm">
+      <a href="/feed"><img src="./imgs/cover.png" class="h-12" ></a>
     </div>
-    <div class="flex-none">
+    <div class="lg:flex-none mx-auto">
       <ul class="menu menu-horizontal p-0">
         <li><a href="/feed"><%= currUser.isOrg ? "Find musicians" : "Find gigs" %></a></li>
         
@@ -46,7 +46,7 @@
             Profile
             <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
           </a>
-          <ul class="p-2 bg-base-100">
+          <ul class="p-2 bg-base-100 border-zinc-600">
             <li><a href="/profile" class="text-decoration-none">Edit Profile</a></li>
             <% if (currUser.isOrg) {%>
               <li><a href="#" class="text-decoration-none">Add Post</a> </li>
@@ -59,7 +59,7 @@
     
   </div>
 
-<div class="min-h-screen max-h-full">
+<div class="min-h-screen max-h-full w-screen">
 </body>
 
 </html>

@@ -26,11 +26,16 @@
 
       <div class="card w-96 bg-base-100 bg-yellow-100 mb-12 lg:ml-10 sm:mx-auto">
         <div class="badge badge-outline badge-accent mt-2 ml-2">new</div>
+          if (user.isOrg){
+            <figure class="px-10 pt-8">
+              <img class="mb-3 w-24 h-24 rounded-md" src="<%= user.image %>"  alt="<%= user.orgName %>'s profile picture"/>
+            </figure>
+          }else{
           <figure class="px-10 pt-8">
-            <img class="mb-3 w-24 h-24 rounded-full" src="https://placeimg.com/192/192/people"  alt="profile picture"/>
+            <img class="mb-3 w-24 h-24 rounded-full" src="<%= user.image %>"  alt="<%= user.givenName %>'s profile picture"/>
           </figure>
-          <div class="card-body items-center text-center">
-            
+          }
+        <div class="card-body items-center text-center">
             <h2 class="card-title"> <%= `${user.givenName} ${user.surName}` %> </h2>
             <h3> <%= `${user.city}, ${user.loc_state}` %> </h3>
             <p class="text-xs text-gray-500"><%= summaryFormatted %></p>

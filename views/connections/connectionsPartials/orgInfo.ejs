@@ -2,17 +2,17 @@
     <% const orgPosts = posts.filter( post => `${post.user}` == `${connection._id}` ) %>
   <div class="pt-28">
 
-    <div class="w-3/4 h-auto bg-base-100 rounded-md shadow-xl flex mx-auto">
+    <div class="w-3/4 bg-base-100 rounded-md shadow-xl xl:flex block mx-auto mt-5 pb-5">
       <div class="h-auto p-5">
-         <div class=" h-auto rounded mb-5">
-           <img class='rounded-lg w-52' src="https://placeimg.com/192/192/people" />
+         <div class=" h-auto rounded mb-5 ">
+           <img class='rounded-lg w-52  mx-auto' src="https://placeimg.com/192/192/people" />
          </div>
          
        <% if (orgPosts.length) { %>
         <form action="/post/updateInterest/<%= connection._id %>?_method=PUT" method="POST">
         <ul class="w-96">
           <% orgPosts.forEach( post => { %>
-            <li class="mb-5">
+            <li class="mb-5 col-10">
               <div class="flex justify-between">
                 <h3 class="text-lg col-8"><%= post.title %></h3>
                 <h4 class="col-3 text-sm"><%= post.startDate.toLocaleDateString() %></h4>
@@ -20,7 +20,7 @@
             <input type='hidden' value='false' name="<%=post._id%>">
             <input type="checkbox" value='true' id="email" name="<%=post._id%>" <%= post.interestedUsers.indexOf(currUser._id) > -1 ? 'checked' : ''%>>
               </div>
-              <hr class="mb-2">
+              <hr class="mb-2 w-3/4 xl:w-auto">
               <h3 class="text-gray-500"><%= post.description %></h3>
             </li> 
           <% }) %>
