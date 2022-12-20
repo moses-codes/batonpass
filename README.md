@@ -1,5 +1,7 @@
 # BatonPass - assemble your ensemble.
 
+![BatonPass landing page screenshot, with login and sign up buttons visible](https://i.ibb.co/2jmzpgN/Screen-Shot-2022-12-19-at-4-32-47-PM.png)
+
 BatonPass is a musical social network for ensembles and musicians to better find each other. Check it out!
 https://batonpass.up.railway.app/
 
