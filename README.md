@@ -6,15 +6,15 @@ BatonPass is a musical social network for ensembles and musicians to better find
 https://batonpass.up.railway.app/
 
 # Tech used
-I implemented HTML, CSS, and JavaScript for both front and back end (Node/Express), as well as Mongoose for the MongoDB Atlas database, and the templating language EJS to handle the client-side views. 
+I implemented HTML, CSS, and JavaScript for both front and back end (Node/Express), as well as Mongoose for the MongoDB database, and the templating language EJS to handle the client-side views. 
 
-I used MVC (Model-view-controller) architecture for this app to organize the back-end.
+I used MVC (Model-view-controller) architecture and designed a REST API for the front-end and back-end to communicate. 
 
 ---
 
 # Install & Run
 
-Type `npm install` into your terminal to install the dependencies, and `npm start` to run.
+Type `npm install` into your terminal to install the dependencies, and `npm start` to run. You'll need a database connection to MongoDB Atlas. 
 
 ---
 
@@ -24,7 +24,4 @@ Type `npm install` into your terminal to install the dependencies, and `npm star
   - PORT (can be any port example: 3000)
   - DB_STRING = `your database URI`
 
----
-#  Optimizations
 
-Currently, BatonPass is an MVP to demonstrate functionality. In the future, users will be able to upload profile pictures, edit all profile information, and chat with each other. 
